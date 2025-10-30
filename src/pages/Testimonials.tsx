@@ -12,8 +12,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
 const getInitials = (fullName: string) => {
-  const [first, last] = fullName.split(" ");
-  return `${first?.[0]}${last?.[0]}`.toUpperCase();
+  const parts = fullName.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  const first = parts[0]?.[0] ?? "";
+  const last = parts[parts.length - 1]?.[0] ?? "";
+  return `${first}${last}`.toUpperCase();
 };
 
 const testimonials = [
@@ -87,6 +91,105 @@ const testimonials = [
     image:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80",
     highlight: "Culture-immersive journey",
+    rating: 5,
+  },
+  {
+    name: "Shraddha",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "This was my second trip with Stories by Foot and once again, they nailed it. The Ladakh circuit was challenging but so rewarding. Our guide made sure everyone felt safe and taken care of.",
+    image: "",
+    highlight: "",
+    rating: 4,
+  },
+  {
+    name: "Diksha Meshram",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "I came solo, but I left with a family. That's what this Ladakh trip turned into. Shoutout to Stories by Foot for making it such a wholesome adventure.",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Ganesh Deshmukh",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "If you're thinking about doing Ladakh—just do it with Nitin and his team. Everything was on point. The stay, the bikes, the food—zero stress and 100% fun.",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Vishal Kumar",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Nitin curated the perfect Kashmir itinerary. Peaceful shikara rides, warm Kashmiri hospitality, and stunning meadows—it was straight out of a movie. Thanks, Stories by Foot!",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Gurleen Kaur",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Exploring Meghalaya with Stories by Foot was like walking into a dream. The double-decker bridge treks, caves, and waterfalls—everything was magical. Can't wait to travel with you guys again!",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Sumanth Reddy",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Kedarnath was not just a trek—it was spiritual and transformative. The guides from Stories by Foot were incredibly helpful and knowledgeable. Nitin was there checking on everyone, which made us feel safe and cared for.",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Chinmay",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Nitin and his team nailed it! From planning to execution, the Ladakh bike trip was seamless. We had the best views, smooth coordination, and great vibes throughout. Looking forward to more trips with Stories by Foot.",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Naveen Reddy",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "I've done many trips, but this Ladakh ride was special. The guides were extremely helpful, and our group felt like a family. Would 100% recommend Stories by Foot if you're looking for something real and adventurous!",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Firoz",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Absolutely mind-blowing experience! Riding through the high passes of Ladakh with Stories by Foot was a dream come true. Everything was well-organized—from accommodations to food. Hats off to the team!",
+    image: "",
+    highlight: "",
     rating: 5,
   },
 ];
