@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Quote } from "lucide-react";
+import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
 const getInitials = (fullName: string) => {
   const [first, last] = fullName.split(" ");
@@ -105,6 +105,17 @@ const TestimonialsPage = () => {
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(false);
 
+  const PAGE_SIZE = 6;
+  const [page, setPage] = useState(0);
+  const totalPages = Math.ceil(testimonials.length / PAGE_SIZE);
+  const currentItems = testimonials.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+
+  useEffect(() => {
+    if (page > totalPages - 1) {
+      setPage(totalPages - 1 < 0 ? 0 : totalPages - 1);
+    }
+  }, [totalPages, page]);
+
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -198,13 +209,40 @@ const TestimonialsPage = () => {
                 Each review captures the thrill, warmth, and courage of journeys crafted with care.
               </p>
             </div>
-            <Badge className="bg-primary/15 text-primary border border-primary/20 px-4 py-2 text-sm">
-              98% would recommend StoriesByFoot
-            </Badge>
+            <div className="flex items-center gap-3">
+              <Badge className="bg-primary/15 text-primary border border-primary/20 px-4 py-2 text-sm">
+                98% would recommend StoriesByFoot
+              </Badge>
+              {totalPages > 1 && (
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Previous testimonials"
+                    onClick={() => setPage((p) => Math.max(0, p - 1))}
+                    disabled={page === 0}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <span className="px-2 text-sm text-muted-foreground">
+                    {page + 1}/{totalPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Next testimonials"
+                    onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                    disabled={page >= totalPages - 1}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {testimonials.map((story) => (
+            {currentItems.map((story) => (
               <Card
                 key={story.name}
                 className="group h-full border border-border/60 bg-card/90 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/60"
