@@ -317,7 +317,7 @@ export const destinations: Destination[] = [
     packages: [
       {
         slug: "zanskar-river-rafting-quest",
-        name: "Zanskar River Rafting Quest",
+        name: "Wild Zanskar",
         duration: "8 days · 7 nights",
         description:
           "Navigate Class III rapids, camp beside gorges, and explore Phuktal monastery tucked within a cave.",
@@ -331,7 +331,7 @@ export const destinations: Destination[] = [
           "Bonfire astronomy sessions",
         ],
         image:
-          "https://images.unsplash.com/photo-1493815793585-d94ccbc86df0?auto=format&fit=crop&w=1600&q=80",
+          "https://cdn.builder.io/api/v1/image/assets%2F0c9f08f02c764866969402fd835478cb%2F5eb306acdcb041aaa622522f123ba2e8?format=webp&width=800",
       },
       {
         slug: "chadar-frozen-river-trek",
