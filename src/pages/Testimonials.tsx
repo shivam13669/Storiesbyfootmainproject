@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,11 +9,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Quote } from "lucide-react";
+import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
 const getInitials = (fullName: string) => {
-  const [first, last] = fullName.split(" ");
-  return `${first?.[0]}${last?.[0]}`.toUpperCase();
+  const parts = fullName.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  const first = parts[0]?.[0] ?? "";
+  const last = parts[parts.length - 1]?.[0] ?? "";
+  return `${first}${last}`.toUpperCase();
 };
 
 const testimonials = [
@@ -89,6 +93,105 @@ const testimonials = [
     highlight: "Culture-immersive journey",
     rating: 5,
   },
+  {
+    name: "Shraddha",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "This was my second trip with Stories by Foot and once again, they nailed it. The Ladakh circuit was challenging but so rewarding. Our guide made sure everyone felt safe and taken care of.",
+    image: "",
+    highlight: "",
+    rating: 4,
+  },
+  {
+    name: "Diksha Meshram",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "I came solo, but I left with a family. That's what this Ladakh trip turned into. Shoutout to Stories by Foot for making it such a wholesome adventure.",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Ganesh Deshmukh",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "If you're thinking about doing Ladakh—just do it with Nitin and his team. Everything was on point. The stay, the bikes, the food—zero stress and 100% fun.",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Vishal Kumar",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Nitin curated the perfect Kashmir itinerary. Peaceful shikara rides, warm Kashmiri hospitality, and stunning meadows—it was straight out of a movie. Thanks, Stories by Foot!",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Gurleen Kaur",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Exploring Meghalaya with Stories by Foot was like walking into a dream. The double-decker bridge treks, caves, and waterfalls—everything was magical. Can't wait to travel with you guys again!",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Sumanth Reddy",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Kedarnath was not just a trek—it was spiritual and transformative. The guides from Stories by Foot were incredibly helpful and knowledgeable. Nitin was there checking on everyone, which made us feel safe and cared for.",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Chinmay",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Nitin and his team nailed it! From planning to execution, the Ladakh bike trip was seamless. We had the best views, smooth coordination, and great vibes throughout. Looking forward to more trips with Stories by Foot.",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Naveen Reddy",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "I've done many trips, but this Ladakh ride was special. The guides were extremely helpful, and our group felt like a family. Would 100% recommend Stories by Foot if you're looking for something real and adventurous!",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
+  {
+    name: "Firoz",
+    role: "",
+    location: "",
+    trip: "",
+    quote:
+      "Absolutely mind-blowing experience! Riding through the high passes of Ladakh with Stories by Foot was a dream come true. Everything was well-organized—from accommodations to food. Hats off to the team!",
+    image: "",
+    highlight: "",
+    rating: 5,
+  },
 ];
 
 const journeyOptions = [
@@ -104,6 +207,17 @@ const TestimonialsPage = () => {
   const { toast } = useToast();
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(false);
+
+  const PAGE_SIZE = 6;
+  const [page, setPage] = useState(0);
+  const totalPages = Math.ceil(testimonials.length / PAGE_SIZE);
+  const currentItems = testimonials.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+
+  useEffect(() => {
+    if (page > totalPages - 1) {
+      setPage(totalPages - 1 < 0 ? 0 : totalPages - 1);
+    }
+  }, [totalPages, page]);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -198,13 +312,40 @@ const TestimonialsPage = () => {
                 Each review captures the thrill, warmth, and courage of journeys crafted with care.
               </p>
             </div>
-            <Badge className="bg-primary/15 text-primary border border-primary/20 px-4 py-2 text-sm">
-              98% would recommend StoriesByFoot
-            </Badge>
+            <div className="flex items-center gap-3">
+              <Badge className="bg-primary/15 text-primary border border-primary/20 px-4 py-2 text-sm">
+                98% would recommend StoriesByFoot
+              </Badge>
+              {totalPages > 1 && (
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Previous testimonials"
+                    onClick={() => setPage((p) => Math.max(0, p - 1))}
+                    disabled={page === 0}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <span className="px-2 text-sm text-muted-foreground">
+                    {page + 1}/{totalPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Next testimonials"
+                    onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                    disabled={page >= totalPages - 1}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {testimonials.map((story) => (
+            {currentItems.map((story) => (
               <Card
                 key={story.name}
                 className="group h-full border border-border/60 bg-card/90 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/60"
