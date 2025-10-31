@@ -11,18 +11,22 @@ export default function AboutPage() {
           <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold leading-tight text-slate-900">
-                About <span className="text-indigo-600">StoriesByFoot</span>
+                About StoriesBy<span className="text-secondary">Foot</span>
               </h1>
               <p className="mt-3 text-slate-600 max-w-xl">
                 <strong>Founded in October 2020</strong>, StoriesByFoot was built on a simple belief — that every journey has a story worth living. We design curated motorbike and 4x4 expeditions that balance thrill, culture, comfort and style for everyone — from budget explorers and student groups to families, corporate teams, and luxury travellers.
               </p>
             </div>
             <div className="flex-shrink-0">
-              <div className="w-40 h-40 md:w-48 md:h-48 bg-indigo-50 rounded-xl flex items-center justify-center border border-indigo-100">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 1.567-3 3.5S10.343 15 12 15s3-1.567 3-3.5S13.657 8 12 8z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 21a7.5 7.5 0 00-15 0" />
-                </svg>
+              <div className="w-40 h-40 md:w-48 md:h-48 bg-indigo-50 rounded-xl flex items-center justify-center border border-indigo-100 overflow-hidden">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2Fad0b087d70674186aab7ce88fbaebcd2%2F847e2c571c0047e88f1df62976119300?format=webp&width=800"
+                  alt="StoriesByFoot logo"
+                  className="h-24 w-24 object-contain"
+                  width={96}
+                  height={96}
+                  loading="lazy"
+                />
               </div>
             </div>
           </header>
