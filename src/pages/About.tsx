@@ -97,7 +97,7 @@ export default function AboutPage() {
           <footer className="mt-8 border-t pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <p className="text-slate-600">✨ <strong>Walk the Road. Live the Story.</strong></p>
-              <p className="text-xs text-slate-400 mt-2">StoriesByFoot © {new Date().getFullYear()} — All rights reserved.</p>
+              <p className="text-xs text-slate-400 mt-2">© 2025 StoriesByFoot. All rights reserved.</p>
             </div>
 
             <div className="flex gap-3 items-center">
