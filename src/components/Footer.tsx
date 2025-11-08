@@ -1,4 +1,5 @@
 import { Mail, Phone, Facebook, Instagram, Youtube } from "lucide-react";
+import { Mail as MailIcon, Phone, Facebook, Instagram, Youtube } from "lucide-react";
 import WhatsAppIcon from "./icons/WhatsAppIcon";
 import { Button } from "./ui/button";
 
