@@ -117,7 +117,12 @@ const ServicesPage = () => {
       <Navigation />
 
       <main className="pt-8 pb-16">
-        <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">Our Services</h1>
+        <h1 className="relative text-center mb-12">
+          <span className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-600 via-teal-500 to-emerald-500 bg-clip-text text-transparent drop-shadow-sm">
+            Our Services
+          </span>
+          <span className="block mx-auto mt-3 h-1 w-28 rounded-full bg-gradient-to-r from-sky-400 via-teal-400 to-emerald-300"></span>
+        </h1>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
           {services.map((service) => (
