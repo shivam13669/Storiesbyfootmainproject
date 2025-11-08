@@ -14,7 +14,7 @@ export default function AboutPage() {
                 About StoriesBy<span className="text-secondary">Foot</span>
               </h1>
               <p className="mt-3 text-slate-600 max-w-xl">
-                <strong>Founded in October 2020</strong>, StoriesByFoot was built on a simple belief — that every journey has a story worth living. We design curated motorbike and 4x4 expeditions that balance thrill, culture, comfort and style for everyone — from budget explorers and student groups to families, corporate teams, and luxury travellers.
+                <strong>Founded in October 2020</strong>, StoriesByFoot was built on a simple belief that every journey has a story worth living. We design curated motorbike and 4x4 expeditions that balance thrill, culture, comfort and style for everyone from budget explorers and student groups to families, corporate teams, and luxury travellers.
               </p>
             </div>
             <div className="flex-shrink-0">
@@ -31,17 +31,17 @@ export default function AboutPage() {
             </div>
           </header>
 
-          <p className="mt-6 border-l-2 pl-4 italic text-slate-600">Formerly known as <strong>PlanYorTrip</strong>, we rebranded to <strong>StoriesByFoot</strong> to reflect our deeper vision — transforming travel into stories that stay with you forever.</p>
+          <p className="mt-6 border-l-2 pl-4 italic text-slate-600">Formerly known as <strong>PlanYorTrip</strong>, we rebranded to <strong>StoriesByFoot</strong> to reflect our deeper vision transforming travel into stories that stay with you forever.</p>
 
           <section className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             <article className="md:col-span-2 space-y-4">
               <h2 className="text-2xl font-semibold text-slate-800">Our Story</h2>
               <p className="text-slate-600 leading-relaxed">
-                StoriesByFoot was <strong>founded in October 2020</strong> with one guiding idea: travel is more than places — it’s the stories you collect on the road. We specialise in expertly guided motorbike and 4x4 expeditions across breathtaking regions such as <strong>Ladakh</strong>, <strong>Zanskar</strong>, <strong>Meghalaya</strong>, <strong>Tawang</strong> (Arunachal Pradesh), <strong>Bhutan</strong>, and <strong>Upper Mustang (Nepal)</strong>.
+                StoriesByFoot was <strong>founded in October 2020</strong> with one guiding idea: travel is more than places it’s the stories you collect on the road. We specialise in expertly guided motorbike and 4x4 expeditions across breathtaking regions such as <strong>Ladakh</strong>, <strong>Zanskar</strong>, <strong>Meghalaya</strong>, <strong>Tawang</strong> (Arunachal Pradesh), <strong>Bhutan</strong>, and <strong>Upper Mustang (Nepal)</strong>.
               </p>
 
               <p className="text-slate-600 leading-relaxed">
-                Each expedition is carefully crafted to combine adventure, cultural connection, and comfort — thoughtfully designed routes, trusted local partners, safety-first operations, and seamless logistics. With over <strong>500 completed expeditions</strong> and <strong>10,000+ delighted travellers</strong> across three nations, our trips aim to transform travel into memorable, story-worthy experiences.
+                Each expedition is carefully crafted to combine adventure, cultural connection, and comfort thoughtfully designed routes, trusted local partners, safety-first operations, and seamless logistics. With over <strong>500 completed expeditions</strong> and <strong>10,000+ delighted travellers</strong> across three nations, our trips aim to transform travel into memorable, story-worthy experiences.
               </p>
 
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -60,6 +60,7 @@ export default function AboutPage() {
               <h3 className="text-lg font-semibold text-slate-800">Quick Facts</h3>
               <ul className="mt-3 text-slate-600 space-y-2">
                 <li>Founded: <strong>October 2020</strong></li>
+                <li>Formerly: <strong>PlanYorTrip</strong></li>
                 <li>Speciality: Motorbike & 4x4 expeditions</li>
                 <li>Regions: Ladakh, Zanskar, Meghalaya, Tawang, Bhutan, Upper Mustang</li>
                 <li>Trips: 500+ completed expeditions</li>
@@ -71,7 +72,7 @@ export default function AboutPage() {
           <section className="mt-8 space-y-6">
             <h2 className="text-2xl font-semibold text-slate-800">Our Vision</h2>
             <p className="text-slate-600 leading-relaxed">
-              To redefine adventure travel by inspiring people to explore with curiosity and compassion — building a community that values discovery, meaningful experiences, and the stories that bind them.
+              To redefine adventure travel by inspiring people to explore with curiosity and compassion building a community that values discovery, meaningful experiences, and the stories that bind them.
             </p>
 
             <h2 className="text-2xl font-semibold text-slate-800">Our Mission</h2>
