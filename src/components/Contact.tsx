@@ -31,6 +31,9 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-20 relative overflow-hidden bg-gradient-to-br from-sky-50 via-white to-emerald-50 scroll-mt-24">
+      <div className="absolute -top-24 -left-24 w-72 h-72 md:w-96 md:h-96 bg-gradient-to-br from-sky-200 to-teal-300 rounded-full opacity-30 filter blur-3xl transform rotate-45 -z-10 pointer-events-none"></div>
+      <div className="absolute -bottom-28 -right-28 w-80 h-80 md:w-96 md:h-96 bg-gradient-to-br from-emerald-200 to-sky-200 rounded-full opacity-25 filter blur-3xl transform rotate-12 -z-10 pointer-events-none"></div>
+
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="relative text-center mb-4">
