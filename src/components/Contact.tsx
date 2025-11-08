@@ -102,7 +102,64 @@ const Contact = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" name="phone" type="tel" placeholder="+91XXXXXXXXXX" />
+                  <div className="flex gap-2">
+                    {/* Country Code Selector */}
+                    <Popover open={openCountryPopover} onOpenChange={setOpenCountryPopover}>
+                      <PopoverTrigger asChild>
+                        <button
+                          type="button"
+                          className="px-3 py-2.5 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all flex items-center gap-2 min-w-fit focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                        >
+                          <span className="text-sm font-medium">{selectedCountry.dial}</span>
+                          <ChevronDown className="h-4 w-4 text-gray-400" />
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-64 p-0" align="start">
+                        <div className="p-3 border-b border-gray-200">
+                          <div className="relative">
+                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+                            <Input
+                              type="text"
+                              placeholder="Search country..."
+                              value={countrySearch}
+                              onChange={(e) => setCountrySearch(e.target.value)}
+                              className="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                            />
+                          </div>
+                        </div>
+                        <div className="max-h-64 overflow-y-auto">
+                          {filteredCountries.length > 0 ? (
+                            filteredCountries.map((country) => (
+                              <button
+                                key={country.code}
+                                type="button"
+                                onClick={() => handleCountrySelect(country)}
+                                className={`w-full text-left px-3 py-2.5 text-sm hover:bg-blue-50 transition-colors flex justify-between items-center ${
+                                  selectedCountry.code === country.code ? "bg-blue-100 font-semibold" : ""
+                                }`}
+                              >
+                                <span>{country.name}</span>
+                                <span className="text-gray-500">{country.dial}</span>
+                              </button>
+                            ))
+                          ) : (
+                            <div className="px-3 py-4 text-sm text-gray-500 text-center">
+                              No countries found
+                            </div>
+                          )}
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+
+                    {/* Phone Number Input */}
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="9876543210"
+                      className="flex-1"
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">Message</Label>
