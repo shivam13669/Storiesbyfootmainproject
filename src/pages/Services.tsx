@@ -122,7 +122,7 @@ const ServicesPage = () => {
 
       <main className="pt-8 pb-16">
         <h1 className="relative text-center mb-12">
-          <span className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-600 via-teal-500 to-emerald-500 bg-clip-text text-transparent drop-shadow-sm">
+          <span className="text-4xl font-bold tracking-tight sm:text-5xl text-slate-900">
             Our Services
           </span>
           <span className="block mx-auto mt-3 h-1 w-28 rounded-full bg-gradient-to-r from-sky-400 via-teal-400 to-emerald-300"></span>
