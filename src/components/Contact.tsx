@@ -76,7 +76,7 @@ const Contact = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="relative text-center mb-4">
-            <span className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-600 via-teal-500 to-emerald-500 bg-clip-text text-transparent drop-shadow-sm">
+            <span className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
               Contact Us
             </span>
             <span className="block mx-auto mt-3 h-1 w-28 rounded-full bg-gradient-to-r from-sky-400 via-teal-400 to-emerald-300"></span>
