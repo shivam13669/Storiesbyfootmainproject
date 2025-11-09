@@ -174,7 +174,7 @@ const Contact = () => {
 
           <div className="rounded-2xl p-6 md:p-8 bg-white/5 backdrop-blur-md border border-border shadow-sm">
             <div className="mb-4">
-              <h3 className="text-2xl font-extrabold bg-gradient-to-r from-sky-600 via-teal-500 to-emerald-500 bg-clip-text text-transparent">Reach us directly</h3>
+              <h3 className="text-2xl font-extrabold text-slate-900">Reach us directly</h3>
               <p className="text-muted-foreground mt-2">Prefer WhatsApp, call, or email? Get in touch using the details below.</p>
             </div>
 
