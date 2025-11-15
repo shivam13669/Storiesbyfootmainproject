@@ -28,7 +28,7 @@ export default function TermsAndConditionPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-slate-800">1. Overview</h2>
-              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-inside">
+              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-outside pl-6">
                 <li>StoriesByFoot is a travel-based platform that provides destination information, travel inspiration, and booking assistance for tours, stays, and experiences.</li>
                 <li>Some services may be offered directly by StoriesByFoot, while others are facilitated through verified third-party providers ("Vendors").</li>
                 <li>These Terms apply to all visitors, users, and registered members of StoriesByFoot.</li>
@@ -73,7 +73,7 @@ export default function TermsAndConditionPage() {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-slate-800">4. Cancellation and Refund Policy</h2>
               <div className="space-y-3 text-slate-700">
-                <ul className="space-y-2 list-disc list-inside">
+                <ul className="space-y-2 list-disc list-outside pl-6">
                   <li>Cancellations and refunds are subject to the terms and policies of the respective Vendor (e.g., hotels, tour operators, transport partners).</li>
                   <li>StoriesByFoot may charge a non-refundable service or convenience fee.</li>
                   <li>Refunds, if applicable, will be processed to the original mode of payment within 7–14 working days, subject to bank processing times.</li>
@@ -82,7 +82,7 @@ export default function TermsAndConditionPage() {
 
                 <div className="mt-4">
                   <h3 className="font-semibold mb-2">4.1. General Policy</h3>
-                  <ul className="space-y-2 list-disc list-inside">
+                  <ul className="space-y-2 list-disc list-outside pl-6">
                     <li>StoriesByFoot functions as a travel platform and intermediary between travelers and verified third-party service providers (such as hotels, tour operators, and transport partners).</li>
                     <li>Each service provider has its own cancellation, amendment, and refund rules, which are binding on the user once a booking is confirmed. This policy applies to all bookings made directly through our Website or via official StoriesByFoot representatives.</li>
                   </ul>
@@ -90,7 +90,7 @@ export default function TermsAndConditionPage() {
 
                 <div className="mt-4">
                   <h3 className="font-semibold mb-2">4.2. Cancellations by the Traveler</h3>
-                  <ul className="space-y-2 list-disc list-inside">
+                  <ul className="space-y-2 list-disc list-outside pl-6">
                     <li>Cancellations must be made in writing by emailing storiesbyfoot@gmail.com with your booking details.</li>
                     <li>Cancellations are subject to the specific policy of the Vendor (hotel, tour operator, etc.) handling your booking.</li>
                     <li>Some bookings—such as last-minute deals, seasonal offers, or non-refundable packages—may not be eligible for cancellation or refund.</li>
@@ -102,13 +102,13 @@ export default function TermsAndConditionPage() {
                 <div className="mt-4">
                   <h3 className="font-semibold mb-2">4.3. Cancellations by StoriesByFoot or Vendor</h3>
                   <p className="leading-relaxed mb-2">StoriesByFoot or the Vendor reserves the right to cancel a booking in cases of:</p>
-                  <ul className="space-y-2 list-disc list-inside">
+                  <ul className="space-y-2 list-disc list-outside pl-6">
                     <li>Fraud, payment failure, or technical errors</li>
                     <li>Inaccurate or incomplete traveler details</li>
                     <li>Force majeure events (natural disasters, strikes, political unrest, or pandemics)</li>
                   </ul>
                   <p className="leading-relaxed mt-3 mb-2">In such cases, you will be offered:</p>
-                  <ul className="space-y-2 list-disc list-inside">
+                  <ul className="space-y-2 list-disc list-outside pl-6">
                     <li>A refund (subject to and dependent on the Vendor's refund policy), or</li>
                     <li>The option to reschedule or receive a travel credit, depending on availability and Vendor policy.</li>
                   </ul>
@@ -117,7 +117,7 @@ export default function TermsAndConditionPage() {
 
                 <div className="mt-4">
                   <h3 className="font-semibold mb-2">4.4. Amendments and Rescheduling</h3>
-                  <ul className="space-y-2 list-disc list-inside">
+                  <ul className="space-y-2 list-disc list-outside pl-6">
                     <li>Changes to booking dates, names, or destinations are treated as amendments.</li>
                     <li>All amendments are subject to availability, Vendor approval, and additional charges.</li>
                     <li>Rescheduling within 7 days of the travel date may incur a higher fee or may not be possible, depending on the Vendor's policy.</li>
@@ -126,7 +126,7 @@ export default function TermsAndConditionPage() {
 
                 <div className="mt-4">
                   <h3 className="font-semibold mb-2">4.5. Refund Process</h3>
-                  <ul className="space-y-2 list-disc list-inside">
+                  <ul className="space-y-2 list-disc list-outside pl-6">
                     <li>Approved refunds will be processed to the original payment method used during booking.</li>
                     <li>Refunds are generally processed within 7–14 business days, depending on the Vendor and payment gateway timelines.</li>
                     <li>Refunds may be delayed due to bank holidays, technical issues, or incomplete information.</li>
@@ -137,7 +137,7 @@ export default function TermsAndConditionPage() {
                 <div className="mt-4">
                   <h3 className="font-semibold mb-2">4.6. Non-Refundable Circumstances</h3>
                   <p className="leading-relaxed mb-2">Refunds will not be provided in the following cases:</p>
-                  <ul className="space-y-2 list-disc list-inside">
+                  <ul className="space-y-2 list-disc list-outside pl-6">
                     <li>"No-show" or failure to arrive on time for a tour or activity</li>
                     <li>Incomplete travel documents (passport, visa, permits, etc.)</li>
                     <li>Denied boarding or refusal of entry by authorities</li>
@@ -156,7 +156,7 @@ export default function TermsAndConditionPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-slate-800">5. User Responsibilities</h2>
-              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-inside">
+              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-outside pl-6">
                 <li>You agree to provide accurate, current, and complete information when creating an account or making a booking.</li>
                 <li>You are responsible for maintaining the confidentiality of your account and login credentials.</li>
                 <li>You agree not to misuse our Website for illegal, fraudulent, or misleading activities; uploading harmful code, malware, or spam; or copying, scraping, or redistributing Website content without authorization.</li>
@@ -166,7 +166,7 @@ export default function TermsAndConditionPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-slate-800">6. Travel Documents and Compliance</h2>
-              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-inside">
+              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-outside pl-6">
                 <li>You are solely responsible for obtaining and carrying valid travel documents, such as passports, visas, identification, and insurance.</li>
                 <li>StoriesByFoot is not responsible for losses caused by denied travel or entry due to missing or invalid documents.</li>
                 <li>You must comply with all applicable local laws, customs regulations, and travel advisories of your destination.</li>
@@ -176,7 +176,7 @@ export default function TermsAndConditionPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-slate-800">7. Third-Party Services</h2>
-              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-inside">
+              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-outside pl-6">
                 <li>StoriesByFoot may include links, offers, or bookings from third-party providers such as airlines, hotels, and tour operators.</li>
                 <li>We act only as an intermediary and are not responsible for the quality, safety, reliability, or performance of these third-party services.</li>
                 <li>Each booking is governed by the respective Vendor's Terms and Conditions. Please review them carefully before proceeding.</li>
@@ -194,7 +194,7 @@ export default function TermsAndConditionPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-slate-800">9. Intellectual Property</h2>
-              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-inside">
+              <ul className="space-y-2 text-slate-700 leading-relaxed list-disc list-outside pl-6">
                 <li>All content on this Website including text, images, graphics, videos, logos, and software is the exclusive property of StoriesByFoot or its content partners and is protected under applicable copyright and trademark laws.</li>
                 <li>You may not reproduce, distribute, modify, or republish any content without prior written consent from StoriesByFoot.</li>
                 <li>Unauthorized use of our intellectual property may result in legal action.</li>
@@ -211,7 +211,7 @@ export default function TermsAndConditionPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-2">10.2. We are not liable for:</h3>
-                  <ul className="space-y-1 list-disc list-inside ml-4 text-slate-700">
+                  <ul className="space-y-1 list-disc list-outside pl-6 ml-4 text-slate-700">
                     <li>Delays, cancellations, or losses arising from third-party services;</li>
                     <li>Force majeure events (e.g., natural disasters, government restrictions, strikes, pandemics);</li>
                     <li>Any direct, indirect, or consequential losses including data loss, emotional distress, or financial damages;</li>
@@ -240,7 +240,7 @@ export default function TermsAndConditionPage() {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-slate-800">12. Indemnification</h2>
               <p className="text-slate-700 leading-relaxed mb-2">You agree to indemnify and hold harmless StoriesByFoot, its founders, employees, and affiliates from any claims, damages, liabilities, or expenses (including legal fees) arising from your:</p>
-              <ul className="space-y-2 list-disc list-inside text-slate-700">
+              <ul className="space-y-2 list-disc list-outside pl-6 text-slate-700">
                 <li>Violation of these Terms;</li>
                 <li>Misuse of the Website;</li>
                 <li>Infringement of third-party rights; or</li>
