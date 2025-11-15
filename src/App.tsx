@@ -10,6 +10,7 @@ import ContactPage from "./pages/Contact";
 import ServicesPage from "./pages/Services";
 import TestimonialsPage from "./pages/Testimonials";
 import AboutPage from "./pages/About";
+import TermsAndConditionPage from "./pages/TermsAndCondition";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/terms-and-condition" element={<TermsAndConditionPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
