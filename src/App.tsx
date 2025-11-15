@@ -12,6 +12,7 @@ import TestimonialsPage from "./pages/Testimonials";
 import AboutPage from "./pages/About";
 import TermsAndConditionPage from "./pages/TermsAndCondition";
 import PrivacyPolicyPage from "./pages/PrivacyPolicy";
+import CookiePolicyPage from "./pages/CookiePolicy";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
