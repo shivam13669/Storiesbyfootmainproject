@@ -93,7 +93,7 @@ const DestinationDetailPage = () => {
           </div>
 
           <div className="container mx-auto px-4 -mt-48 relative z-10">
-            <div className="grid gap-8 lg:grid-cols-[1fr_420px] lg:gap-12">
+            <div className="grid gap-8 lg:grid-cols-[1fr_420px] lg:gap-12 lg:items-end">
               <div>
                 <Button asChild variant="outline" size="sm" className="mb-6">
                   <Link to="/destinations" className="inline-flex items-center gap-2">
