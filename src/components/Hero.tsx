@@ -3,16 +3,13 @@ import { ArrowRight, Play } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 
-import beach from "@/assets/beach-sunset.jpg";
-import forest from "@/assets/forest-mist.jpg";
-import ladakh from "@/assets/ladakh-mountains.jpg";
-import heroForest from "@/assets/hero-forest.jpg";
-
 const images = [
-  { src: ladakh, alt: "Mountain expedition" },
-  { src: beach, alt: "Beach sunset getaway" },
-  { src: forest, alt: "Forest trail adventure" },
-  { src: heroForest, alt: "Jungle escape" },
+  { src: "https://images.unsplash.com/photo-1762706372855-34d5efc09ef5?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Adventure 1" },
+  { src: "https://images.unsplash.com/photo-1762701254454-889d0cb98c30?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Adventure 2" },
+  { src: "https://images.unsplash.com/photo-1762696782497-2b39df0f4523?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Adventure 3" },
+  { src: "https://images.unsplash.com/photo-1762696796348-d6f22d721657?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Adventure 4" },
+  { src: "https://images.unsplash.com/photo-1762539609832-edc710faa692?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Adventure 5" },
+  { src: "https://images.unsplash.com/photo-1762698325112-16b13f4f8732?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Adventure 6" },
 ];
 
 const TRANSITION_MS = 1000;
