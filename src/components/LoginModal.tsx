@@ -477,7 +477,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                       </div>
 
                       {/* Password Requirements */}
-                      {signupPassword && isPasswordFieldFocused && (
+                      {signupPassword && (
                         <div className="mt-3 p-3 bg-gray-50 rounded-lg space-y-2">
                           <p className="text-xs font-semibold text-gray-900">Password Requirements:</p>
                           <div className="space-y-1.5 text-xs">
