@@ -395,7 +395,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                       <label className="block text-sm font-semibold text-gray-900">
                         Mobile Number
                       </label>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2" onMouseDown={() => setIsPasswordFieldFocused(false)}>
                         {/* Country Code Selector */}
                         <Popover open={openCountryPopover} onOpenChange={setOpenCountryPopover}>
                           <PopoverTrigger asChild>
