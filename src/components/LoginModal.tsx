@@ -419,7 +419,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                                 />
                               </div>
                             </div>
-                            <div className="max-h-64 overflow-y-auto">
+                            <div className="max-h-64 overflow-y-auto" onWheel={(e) => e.stopPropagation()}>
                               {filteredCountries.length > 0 ? (
                                 filteredCountries.map((country) => (
                                   <button
