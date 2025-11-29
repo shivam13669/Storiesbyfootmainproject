@@ -598,7 +598,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
                   {/* Google Sign Up */}
                   <div className="grid grid-cols-1 gap-3">
-                    <button className="border-2 border-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-lg hover:border-orange-200 hover:bg-orange-50/30 transition-all duration-200 flex items-center justify-center gap-2 group">
+                    <button onMouseDown={() => setIsPasswordFieldFocused(false)} className="border-2 border-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-lg hover:border-orange-200 hover:bg-orange-50/30 transition-all duration-200 flex items-center justify-center gap-2 group">
                       <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                         <path
                           fill="#4285F4"
