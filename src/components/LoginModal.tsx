@@ -377,7 +377,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                       <label className="block text-sm font-semibold text-gray-900">
                         Email Address
                       </label>
-                      <div className="relative group">
+                      <div className="relative group" onMouseDown={() => setIsPasswordFieldFocused(false)}>
                         <Mail className="absolute left-3.5 top-3.5 h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                         <Input
                           type="email"
