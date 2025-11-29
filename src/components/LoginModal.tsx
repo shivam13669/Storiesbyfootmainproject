@@ -631,6 +631,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                           e.preventDefault();
                           setActiveTab('login');
                         }}
+                        onMouseDown={() => setIsPasswordFieldFocused(false)}
                         className="text-orange-600 hover:text-orange-700 font-semibold transition-colors"
                       >
                         Login here
