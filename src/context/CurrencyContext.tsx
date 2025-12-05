@@ -67,9 +67,9 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   const { data, isLoading } = useQuery({
     queryKey: ["fx-rates", INR_BASE_CODE],
     queryFn: ({ signal }) => fetchRatesBaseINR(signal),
-    staleTime: 1000 * 60 * 60, // 1 hour
-    refetchInterval: 1000 * 60 * 60, // refresh every 1 hour automatically
-    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchInterval: 1000 * 60 * 5, // refresh every 5 minutes automatically
+    refetchOnWindowFocus: true, // refresh when user switches back to tab
   });
 
   const rates: RatesMap = useMemo(() => {
