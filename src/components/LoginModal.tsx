@@ -37,6 +37,11 @@ const COUNTRIES = [
   { code: "NP", name: "Nepal", dial: "+977" },
 ];
 
+const validateEmail = (email: string) => {
+  const emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+};
+
 const validatePassword = (password: string) => {
   const requirements = {
     length: password.length >= 6,
@@ -45,7 +50,7 @@ const validatePassword = (password: string) => {
     number: /[0-9]/.test(password),
     special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
   };
-  
+
   const isValid = Object.values(requirements).every(req => req);
   return { isValid, requirements };
 };
