@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, CheckCircle, User, Phone, Search, ChevronDown, X } from "lucide-react";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 import {
   Dialog,
   DialogContent,
@@ -37,6 +38,52 @@ const COUNTRIES = [
   { code: "NP", name: "Nepal", dial: "+977" },
 ];
 
+const validateEmail = (email: string) => {
+  const emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+};
+
+const COUNTRY_DIGIT_REQUIREMENTS: Record<string, { min: number; max: number }> = {
+  IN: { min: 10, max: 10 },
+  US: { min: 10, max: 10 },
+  GB: { min: 10, max: 11 },
+  CA: { min: 10, max: 10 },
+  AU: { min: 9, max: 9 },
+  DE: { min: 10, max: 11 },
+  FR: { min: 9, max: 9 },
+  IT: { min: 10, max: 10 },
+  ES: { min: 9, max: 9 },
+  JP: { min: 10, max: 11 },
+  CN: { min: 11, max: 11 },
+  SG: { min: 8, max: 8 },
+  MY: { min: 9, max: 10 },
+  TH: { min: 9, max: 10 },
+  PH: { min: 10, max: 10 },
+  ID: { min: 9, max: 12 },
+  SL: { min: 9, max: 9 },
+  NP: { min: 10, max: 10 },
+};
+
+const validateInternationalMobile = (mobile: string, countryCode: string): boolean => {
+  const digitCount = mobile.replace(/\D/g, '').length;
+  const requirements = COUNTRY_DIGIT_REQUIREMENTS[countryCode];
+
+  if (!requirements) {
+    return false;
+  }
+
+  if (digitCount < requirements.min || digitCount > requirements.max) {
+    return false;
+  }
+
+  try {
+    const phoneNumber = parsePhoneNumberFromString(mobile, countryCode as any);
+    return phoneNumber ? phoneNumber.isValid() : false;
+  } catch {
+    return false;
+  }
+};
+
 const validatePassword = (password: string) => {
   const requirements = {
     length: password.length >= 6,
@@ -45,7 +92,7 @@ const validatePassword = (password: string) => {
     number: /[0-9]/.test(password),
     special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
   };
-  
+
   const isValid = Object.values(requirements).every(req => req);
   return { isValid, requirements };
 };
@@ -67,6 +114,9 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
   const [isPasswordFieldFocused, setIsPasswordFieldFocused] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [signupEmailError, setSignupEmailError] = useState("");
+  const [mobileNumberError, setMobileNumberError] = useState("");
 
   const filteredCountries = COUNTRIES.filter(country =>
     country.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
@@ -80,11 +130,24 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address (e.g., you@example.com)");
+      return;
+    }
     console.log("Login:", { email, password });
   };
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateEmail(signupEmail)) {
+      setSignupEmailError("Please enter a valid email address (e.g., you@example.com)");
+      return;
+    }
+    if (!validateInternationalMobile(mobileNumber, selectedCountry.code)) {
+      setMobileNumberError("Please enter a valid mobile number for the selected country");
+      alert("Please enter a valid mobile number for the selected country");
+      return;
+    }
     if (!isPasswordValid) {
       alert("Password does not meet requirements");
       return;
@@ -191,14 +254,22 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                       <div className="relative group">
                         <Mail className="absolute left-3.5 top-3.5 h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                         <Input
-                          type="email"
+                          type="text"
                           placeholder="you@example.com"
                           value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-gray-50/50 transition-all"
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            setEmailError("");
+                          }}
+                          className={`w-full pl-11 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 bg-gray-50/50 transition-all ${
+                            emailError ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : 'border-gray-200 focus:border-orange-500'
+                          }`}
                           required
                         />
                       </div>
+                      {emailError && (
+                        <p className="text-xs text-red-500 font-medium">{emailError}</p>
+                      )}
                     </div>
 
                     {/* Password Field */}
@@ -380,14 +451,22 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                       <div className="relative group" onMouseDown={() => setIsPasswordFieldFocused(false)}>
                         <Mail className="absolute left-3.5 top-3.5 h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                         <Input
-                          type="email"
+                          type="text"
                           placeholder="you@example.com"
                           value={signupEmail}
-                          onChange={(e) => setSignupEmail(e.target.value)}
-                          className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-gray-50/50 transition-all"
+                          onChange={(e) => {
+                            setSignupEmail(e.target.value);
+                            setSignupEmailError("");
+                          }}
+                          className={`w-full pl-11 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 bg-gray-50/50 transition-all ${
+                            signupEmailError ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : 'border-gray-200 focus:border-orange-500'
+                          }`}
                           required
                         />
                       </div>
+                      {signupEmailError && (
+                        <p className="text-xs text-red-500 font-medium">{signupEmailError}</p>
+                      )}
                     </div>
 
                     {/* Mobile Number with Country Code */}
@@ -438,12 +517,23 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                             type="tel"
                             placeholder="9876543210"
                             value={mobileNumber}
-                            onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
-                            className="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-gray-50/50 transition-all"
+                            onChange={(e) => {
+                              const digitsOnly = e.target.value.replace(/\D/g, '');
+                              const maxDigits = COUNTRY_DIGIT_REQUIREMENTS[selectedCountry.code]?.max || 15;
+                              const truncated = digitsOnly.slice(0, maxDigits);
+                              setMobileNumber(truncated);
+                              setMobileNumberError("");
+                            }}
+                            className={`w-full pl-11 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 bg-gray-50/50 transition-all ${
+                              mobileNumberError ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20' : 'border-gray-200 focus:border-orange-500 focus:ring-orange-500/20'
+                            }`}
                             required
                           />
                         </div>
                       </div>
+                      {mobileNumberError && (
+                        <p className="text-xs text-red-500 font-medium">{mobileNumberError}</p>
+                      )}
                     </div>
 
                     {/* Password Field */}
@@ -579,7 +669,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                     {/* Sign Up Button */}
                     <button
                       type="submit"
-                      disabled={!isPasswordValid || !fullName || !signupEmail || !mobileNumber || !agreeTerms}
+                      disabled={!isPasswordValid || !fullName || !signupEmail || !validateEmail(signupEmail) || !mobileNumber || !validateInternationalMobile(mobileNumber, selectedCountry.code) || !agreeTerms}
                       className="w-full mt-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 shadow-lg hover:shadow-xl"
                     >
                       Create Account
