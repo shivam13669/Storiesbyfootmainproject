@@ -315,12 +315,13 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                           Remember me
                         </span>
                       </label>
-                      <a
-                        href="#"
+                      <button
+                        type="button"
+                        onClick={() => setShowForgotPassword(true)}
                         className="text-sm text-orange-600 hover:text-orange-700 font-semibold transition-colors"
                       >
                         Forgot password?
-                      </a>
+                      </button>
                     </div>
 
                     {/* Login Button */}
