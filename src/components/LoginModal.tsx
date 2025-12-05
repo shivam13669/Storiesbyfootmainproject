@@ -84,6 +84,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [isPasswordFieldFocused, setIsPasswordFieldFocused] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [signupEmailError, setSignupEmailError] = useState("");
+  const [mobileNumberError, setMobileNumberError] = useState("");
 
   const filteredCountries = COUNTRIES.filter(country =>
     country.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
