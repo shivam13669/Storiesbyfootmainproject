@@ -93,7 +93,7 @@ const services = [
       "Guided visits to heritage and artisan centres",
       "Community-led experiences promoting responsible tourism",
     ],
-    img: "https://cdn.builder.io/api/v1/image/assets%2F3005cb3e673a454989d4f95fc852f4e9%2F303fab4a2b1e48788cf33cee37aa83ab?format=webp&width=800",
+    img: "https://cdn.builder.io/api/v1/image/assets%2F3005cb3e673a454989d4f95fc852f4e9%2Fea3120f26cde442497e66bdef738bec3?format=webp&width=800",
   },
   {
     id: 8,
