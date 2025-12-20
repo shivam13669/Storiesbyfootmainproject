@@ -40,7 +40,7 @@ import {
 
 const DestinationDetailPage = () => {
   const { slug, packageSlug } = useParams<{ slug: string; packageSlug?: string }>();
-  const { formatFromINR } = useCurrency();
+  const { formatPrice } = useCurrency();
 
   let destination = slug ? getDestinationBySlug(slug) : undefined;
   let travelPackage =
