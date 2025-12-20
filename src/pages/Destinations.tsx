@@ -117,9 +117,9 @@ const DestinationsPage = () => {
 
                   <div className="mt-5 flex flex-wrap items-baseline justify-between gap-3">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-xl font-semibold text-foreground">{formatFromINR(parseINRStringToNumber(pkg.price) ?? 0)}</span>
+                      <span className="text-xl font-semibold text-foreground">{formatPrice(parsePrice(pkg.price) ?? 0, { fromCurrency: "INR" })}</span>
                       {pkg.oldPrice && (
-                        <span className="text-sm text-muted-foreground line-through">{formatFromINR(parseINRStringToNumber(pkg.oldPrice) ?? 0)}</span>
+                        <span className="text-sm text-muted-foreground line-through">{formatPrice(parsePrice(pkg.oldPrice) ?? 0, { fromCurrency: "INR" })}</span>
                       )}
                       {pkg.badge && (
                         <span className="rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-semibold text-emerald-700">{pkg.badge}</span>
