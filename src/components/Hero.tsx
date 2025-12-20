@@ -41,13 +41,18 @@ const Hero: React.FC = () => {
           <div
             key={img.src}
             aria-hidden={i !== index}
-            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000`}
+            className={`absolute inset-0 transition-opacity duration-1000`}
             style={{
-              backgroundImage: `url(${img.src})`,
               opacity: i === index ? 1 : 0,
               transitionDuration: `${TRANSITION_MS}ms`,
             }}
           >
+            <img
+              src={img.src}
+              alt={img.alt}
+              className="w-full h-full object-cover"
+              loading={i === 0 ? "eager" : "lazy"}
+            />
             {/* Dark overlay for text readability */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/30"></div>
           </div>
