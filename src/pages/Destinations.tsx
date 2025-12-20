@@ -6,13 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { destinationIconMap, destinations } from "@/data/destinations";
 import { ArrowRight, Calendar, MapPin, MapPinned, Star } from "lucide-react";
-import { useCurrency } from "@/context/CurrencyContext";
-import { parseINRStringToNumber } from "@/lib/currency";
+import { useCurrency, parsePrice } from "@/context/CurrencyContext";
 
 const DestinationsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { formatFromINR } = useCurrency();
+  const { formatPrice } = useCurrency();
 
   useLayoutEffect(() => {
     if (location.pathname === "/destinations") {
