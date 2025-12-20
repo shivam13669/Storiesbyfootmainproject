@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Globe } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { CURRENCIES, COMMON_CODES, FLAG_BY_CURRENCY, getCurrencyByCode, type Currency } from "@/lib/currency";
 import { useCurrency } from "@/context/CurrencyContext";
 
