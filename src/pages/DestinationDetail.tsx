@@ -18,7 +18,7 @@ import {
   getDestinationBySlug,
   getPackageBySlug,
 } from "@/data/destinations";
-import { useCurrency, parsePrice } from "@/context/CurrencyContext";
+import { useCurrency, parsePrice, parseINRStringToNumber } from "@/context/CurrencyContext";
 import {
   ArrowLeft,
   Calendar,
