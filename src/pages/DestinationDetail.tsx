@@ -18,8 +18,7 @@ import {
   getDestinationBySlug,
   getPackageBySlug,
 } from "@/data/destinations";
-import { useCurrency } from "@/context/CurrencyContext";
-import { parseINRStringToNumber } from "@/lib/currency";
+import { useCurrency, parsePrice } from "@/context/CurrencyContext";
 import {
   ArrowLeft,
   Calendar,
@@ -41,7 +40,7 @@ import {
 
 const DestinationDetailPage = () => {
   const { slug, packageSlug } = useParams<{ slug: string; packageSlug?: string }>();
-  const { formatFromINR } = useCurrency();
+  const { formatPrice } = useCurrency();
 
   let destination = slug ? getDestinationBySlug(slug) : undefined;
   let travelPackage =
@@ -133,17 +132,17 @@ const DestinationDetailPage = () => {
                   <p className="text-sm font-semibold text-muted-foreground">Starting from</p>
                   <div className="mt-2 flex items-baseline gap-3">
                     <span className="text-4xl font-bold text-primary">
-                      {formatFromINR(parseINRStringToNumber(travelPackage.price) ?? 0)}
+                      {formatPrice(parsePrice(travelPackage.price) ?? 0, { fromCurrency: "INR" })}
                     </span>
                     {travelPackage.oldPrice && (
                       <span className="text-sm text-muted-foreground line-through">
-                        {formatFromINR(parseINRStringToNumber(travelPackage.oldPrice) ?? 0)}
+                        {formatPrice(parsePrice(travelPackage.oldPrice) ?? 0, { fromCurrency: "INR" })}
                       </span>
                     )}
                   </div>
                   {savings !== undefined && (
                     <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-emerald-600">
-                      Save {formatFromINR(savings)}
+                      Save {formatPrice(savings, { fromCurrency: "INR" })}
                     </p>
                   )}
 

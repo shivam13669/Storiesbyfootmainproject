@@ -3,13 +3,12 @@ import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Calendar, MapPin, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useCurrency } from "@/context/CurrencyContext";
-import { parseINRStringToNumber } from "@/lib/currency";
+import { useCurrency, parsePrice } from "@/context/CurrencyContext";
 
 const featuredDestinations = destinationCatalog.slice(0, 3);
 
 const Destinations = () => {
-  const { formatFromINR } = useCurrency();
+  const { formatPrice } = useCurrency();
   return (
     <section id="destinations" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -49,7 +48,7 @@ const Destinations = () => {
                   )}
                   <div className="absolute bottom-4 left-4 bg-secondary/90 backdrop-blur-sm text-secondary-foreground px-3 py-1 rounded-full font-semibold">
                     {primaryPackage?.price ? (
-                      <>Starting at {formatFromINR(parseINRStringToNumber(primaryPackage.price) ?? 0)}</>
+                      <>Starting at {formatPrice(parsePrice(primaryPackage.price) ?? 0, { fromCurrency: "INR" })}</>
                     ) : (
                       <>On request</>
                     )}

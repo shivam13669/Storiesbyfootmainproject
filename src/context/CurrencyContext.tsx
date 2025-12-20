@@ -1,6 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { CURRENCIES, INR_BASE_CODE, formatNumberAsCurrency, parseINRStringToNumber } from "@/lib/currency";
+import { CURRENCIES, formatNumberAsCurrency, getCurrencyByCode, type Currency } from "@/lib/currency";
+import { getRegionPricing, type RegionPricing } from "@/lib/pricing";
+import { detectUserRegion, saveRegionPreference } from "@/lib/region";
 
 const STORAGE_KEY = "sb_currency";
 const CACHE_KEY = "sb_currency_rates_cache";
@@ -17,8 +19,10 @@ interface CachedRates {
 type CurrencyContextValue = {
   currency: string;
   setCurrency: (code: string) => void;
-  convertFromINR: (amountInINR: number) => number;
-  formatFromINR: (amountInINR: number, opts?: { maximumFractionDigits?: number }) => string;
+  region: string;
+  regionPricing: RegionPricing;
+  convertPrice: (basePrice: number, fromCurrency?: string) => number;
+  formatPrice: (basePrice: number, opts?: { maximumFractionDigits?: number; fromCurrency?: string }) => string;
   rates: RatesMap;
   isLoading: boolean;
   lastUpdated?: string;
@@ -54,6 +58,12 @@ const EMERGENCY_RATES: RatesMap = {
   QAR: 22.9,
   OMR: 216.5,
   KWD: 271.0,
+  SAR: 22.2,
+  BRL: 17.0,
+  MXN: 17.2,
+  EGP: 3.2,
+  PKR: 0.36,
+  BDT: 0.79,
 };
 
 function getCachedRates(): CachedRates | null {
@@ -88,7 +98,7 @@ function setCachedRates(rates: RatesMap, apiSource: string): void {
   }
 }
 
-async function fetchRatesBaseINR(signal?: AbortSignal): Promise<{
+async function fetchExchangeRates(baseCurrency: string, signal?: AbortSignal): Promise<{
   rates: RatesMap;
   date?: string;
   apiSource: string;
@@ -100,14 +110,16 @@ async function fetchRatesBaseINR(signal?: AbortSignal): Promise<{
   }
 
   // Primary API: exchangerate.host
-  console.log("[API] Attempting exchangerate.host...");
+  console.log(`[API] Attempting exchangerate.host for ${baseCurrency}...`);
   try {
-    const res = await fetch("https://api.exchangerate.host/latest?base=INR", { signal });
+    const res = await fetch(`https://api.exchangerate.host/latest?base=${baseCurrency}`, { signal });
     if (res.ok) {
       const data = await res.json();
       if (data && data.rates && Object.keys(data.rates).length > 0) {
-        console.log(`[API] ✓ exchangerate.host succeeded for INR (${Object.keys(data.rates).length} rates)`);
+        console.log(`[API] ✓ exchangerate.host succeeded for ${baseCurrency} (${Object.keys(data.rates).length} rates)`);
         const rates = data.rates as RatesMap;
+        // Include base currency with rate 1
+        rates[baseCurrency] = 1;
         setCachedRates(rates, "exchangerate.host");
         return { rates, date: data.date, apiSource: "exchangerate.host" };
       }
@@ -117,14 +129,16 @@ async function fetchRatesBaseINR(signal?: AbortSignal): Promise<{
   }
 
   // Fallback API: open.er-api.com
-  console.log("[API] Attempting open.er-api.com...");
+  console.log(`[API] Attempting open.er-api.com for ${baseCurrency}...`);
   try {
-    const res = await fetch("https://open.er-api.com/v6/latest/INR", { signal });
+    const res = await fetch(`https://open.er-api.com/v6/latest/${baseCurrency}`, { signal });
     if (res.ok) {
       const data = await res.json();
       if (data && data.rates && Object.keys(data.rates).length > 0) {
-        console.log(`[API] ✓ open.er-api.com succeeded for INR (${Object.keys(data.rates).length} rates)`);
+        console.log(`[API] ✓ open.er-api.com succeeded for ${baseCurrency} (${Object.keys(data.rates).length} rates)`);
         const rates = data.rates as RatesMap;
+        // Include base currency with rate 1
+        rates[baseCurrency] = 1;
         setCachedRates(rates, "open.er-api.com");
         return { rates, apiSource: "open.er-api.com" };
       }
@@ -135,37 +149,52 @@ async function fetchRatesBaseINR(signal?: AbortSignal): Promise<{
 
   // Final fallback: emergency rates
   console.log("[API] Both APIs failed, using emergency rates");
-  return { rates: EMERGENCY_RATES, apiSource: "emergency-fallback" };
+  const emergencyWithBase = { ...EMERGENCY_RATES };
+  emergencyWithBase[baseCurrency] = 1;
+  return { rates: emergencyWithBase, apiSource: "emergency-fallback" };
 }
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   const [currency, setCurrencyState] = useState<string>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      return saved || INR_BASE_CODE;
+      return saved || "";
     } catch {
-      return INR_BASE_CODE;
+      return "";
     }
   });
 
-  const [cacheStatus, setCacheStatus] = useState<string>("");
+  const [region, setRegion] = useState<string>("");
+  const [isRegionLoaded, setIsRegionLoaded] = useState(false);
 
+  // Detect region on mount
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, currency);
-    } catch {}
-  }, [currency]);
+    detectUserRegion().then((detectedRegion) => {
+      setRegion(detectedRegion);
+      setIsRegionLoaded(true);
 
+      // Set default currency to region's base currency if not already set
+      if (!currency) {
+        const regionPricing = getRegionPricing(detectedRegion);
+        setCurrencyState(regionPricing.baseCurrency);
+      }
+    });
+  }, []);
+
+  const regionPricing = useMemo(() => getRegionPricing(region), [region]);
+
+  // Use region's base currency for exchange rate fetching
   const { data, isLoading } = useQuery({
-    queryKey: ["fx-rates", INR_BASE_CODE],
-    queryFn: ({ signal }) => fetchRatesBaseINR(signal),
+    queryKey: ["fx-rates", regionPricing.baseCurrency],
+    queryFn: ({ signal }) => fetchExchangeRates(regionPricing.baseCurrency, signal),
     staleTime: 1000 * 60 * 60, // 1 hour
     refetchInterval: 1000 * 60 * 5, // refresh every 5 minutes
     refetchOnWindowFocus: false,
+    enabled: isRegionLoaded, // Only fetch after region is detected
   });
 
   const rates: RatesMap = useMemo(() => {
-    const map: RatesMap = { [INR_BASE_CODE]: 1 };
+    const map: RatesMap = { [regionPricing.baseCurrency]: 1 };
     if (data?.rates) {
       for (const [code, rate] of Object.entries(data.rates)) {
         if (typeof rate === "number" && rate > 0) {
@@ -177,46 +206,59 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
       .slice(0, 5)
       .map(([code, rate]) => `${code}=${rate}`)
       .join(" ");
-    console.log(`[RATES MAP] Built from ${data?.apiSource || "unknown"} | ${ratesLog}${Object.keys(map).length > 5 ? " ..." : ""}`);
+    console.log(
+      `[RATES MAP] Built from ${data?.apiSource || "unknown"} (base: ${regionPricing.baseCurrency}) | ${ratesLog}${Object.keys(map).length > 5 ? " ..." : ""}`
+    );
     return map;
-  }, [data]);
+  }, [data, regionPricing.baseCurrency]);
 
   const setCurrency = useCallback((code: string) => {
     const exists = CURRENCIES.some((c) => c.code === code);
-    setCurrencyState(exists ? code : INR_BASE_CODE);
+    if (exists) {
+      setCurrencyState(code);
+      try {
+        localStorage.setItem(STORAGE_KEY, code);
+      } catch {}
+    }
   }, []);
 
-  const convertFromINR = useCallback(
-    (amountInINR: number) => {
-      if (!Number.isFinite(amountInINR)) return 0;
+  const convertPrice = useCallback(
+    (basePrice: number, fromCurrency?: string) => {
+      if (!Number.isFinite(basePrice)) return 0;
 
-      const baseRate = rates[INR_BASE_CODE] ?? 1;
+      // Use specified currency or region's base currency
+      const sourceCurrency = fromCurrency || regionPricing.baseCurrency;
+      const sourceRate = rates[sourceCurrency] ?? 1;
       const targetRate = rates[currency] ?? 1;
 
-      const converted = (amountInINR / baseRate) * targetRate;
-      console.log(`[CONVERSION] ${amountInINR} INR (rate: ${targetRate}) → ${currency} (rate: ${baseRate}) = ${converted}`);
+      const converted = (basePrice / sourceRate) * targetRate;
+      console.log(
+        `[CONVERSION] ${basePrice} ${sourceCurrency} (rate: ${sourceRate}) → ${currency} (rate: ${targetRate}) = ${converted}`
+      );
       return converted;
     },
-    [currency, rates]
+    [currency, rates, regionPricing.baseCurrency]
   );
 
-  const formatFromINR = useCallback(
-    (amountInINR: number, opts?: { maximumFractionDigits?: number }) => {
-      const value = convertFromINR(amountInINR);
+  const formatPrice = useCallback(
+    (basePrice: number, opts?: { maximumFractionDigits?: number; fromCurrency?: string }) => {
+      const value = convertPrice(basePrice, opts?.fromCurrency);
       return formatNumberAsCurrency(value, currency, opts?.maximumFractionDigits ?? 0);
     },
-    [convertFromINR, currency]
+    [convertPrice, currency]
   );
 
   const value: CurrencyContextValue = {
     currency,
     setCurrency,
-    convertFromINR,
-    formatFromINR,
+    region,
+    regionPricing,
+    convertPrice,
+    formatPrice,
     rates,
-    isLoading,
+    isLoading: isLoading || !isRegionLoaded,
     lastUpdated: data?.date,
-    cacheStatus,
+    cacheStatus: data?.apiSource,
   };
 
   return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
@@ -228,7 +270,21 @@ export function useCurrency() {
   return ctx;
 }
 
-export function parseINR(value: string | undefined): number | undefined {
+/**
+ * Parse a price string to a number
+ * Handles formats like "₹38,500", "$129", etc.
+ */
+export function parsePrice(value: string | undefined): number | undefined {
   if (!value) return undefined;
-  return parseINRStringToNumber(value);
+  const numeric = value.replace(/[^0-9.]/g, "");
+  if (!numeric) return undefined;
+  const parsed = Number(numeric);
+  return Number.isNaN(parsed) ? undefined : parsed;
+}
+
+/**
+ * Alias for backwards compatibility
+ */
+export function parseINRStringToNumber(value: string): number | undefined {
+  return parsePrice(value);
 }

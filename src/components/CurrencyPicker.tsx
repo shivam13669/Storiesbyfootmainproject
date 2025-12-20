@@ -2,8 +2,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Globe } from "lucide-react";
 import { CURRENCIES, COMMON_CODES, FLAG_BY_CURRENCY, getCurrencyByCode, type Currency } from "@/lib/currency";
+import { useCurrency } from "@/context/CurrencyContext";
 
 
 export function CurrencyPicker({
@@ -17,6 +18,7 @@ export function CurrencyPicker({
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const { region, regionPricing } = useCurrency();
 
   const display = getCurrencyByCode(value);
   const flagCc = (FLAG_BY_CURRENCY[display.code] || display.code.slice(0, 2)).toLowerCase();
@@ -59,6 +61,17 @@ export function CurrencyPicker({
         <div className="p-6 border-b">
           <DialogTitle>Currency Picker</DialogTitle>
           <DialogDescription>Select your preferred currency.</DialogDescription>
+
+          {/* Regional pricing info */}
+          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg flex items-start gap-3">
+            <Globe className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-1 flex-shrink-0" />
+            <div className="text-sm text-blue-900 dark:text-blue-100">
+              <p className="font-medium">Detected Region: {regionPricing.regionName}</p>
+              <p className="text-xs mt-1 opacity-90">Default currency: {regionPricing.baseCurrency}</p>
+              <p className="text-xs mt-2 opacity-75">💡 Prices may vary by region</p>
+            </div>
+          </div>
+
           <div className="mt-4">
             <Input
               placeholder="Search currencies"

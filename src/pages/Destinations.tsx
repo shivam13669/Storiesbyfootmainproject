@@ -6,13 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { destinationIconMap, destinations } from "@/data/destinations";
 import { ArrowRight, Calendar, MapPin, MapPinned, Star } from "lucide-react";
-import { useCurrency } from "@/context/CurrencyContext";
-import { parseINRStringToNumber } from "@/lib/currency";
+import { useCurrency, parsePrice } from "@/context/CurrencyContext";
 
 const DestinationsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { formatFromINR } = useCurrency();
+  const { formatPrice } = useCurrency();
 
   useLayoutEffect(() => {
     if (location.pathname === "/destinations") {
@@ -118,9 +117,9 @@ const DestinationsPage = () => {
 
                   <div className="mt-5 flex flex-wrap items-baseline justify-between gap-3">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-xl font-semibold text-foreground">{formatFromINR(parseINRStringToNumber(pkg.price) ?? 0)}</span>
+                      <span className="text-xl font-semibold text-foreground">{formatPrice(parsePrice(pkg.price) ?? 0, { fromCurrency: "INR" })}</span>
                       {pkg.oldPrice && (
-                        <span className="text-sm text-muted-foreground line-through">{formatFromINR(parseINRStringToNumber(pkg.oldPrice) ?? 0)}</span>
+                        <span className="text-sm text-muted-foreground line-through">{formatPrice(parsePrice(pkg.oldPrice) ?? 0, { fromCurrency: "INR" })}</span>
                       )}
                       {pkg.badge && (
                         <span className="rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-semibold text-emerald-700">{pkg.badge}</span>
