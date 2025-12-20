@@ -269,3 +269,22 @@ export function useCurrency() {
   if (!ctx) throw new Error("useCurrency must be used within CurrencyProvider");
   return ctx;
 }
+
+/**
+ * Parse a price string to a number
+ * Handles formats like "₹38,500", "$129", etc.
+ */
+export function parsePrice(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  const numeric = value.replace(/[^0-9.]/g, "");
+  if (!numeric) return undefined;
+  const parsed = Number(numeric);
+  return Number.isNaN(parsed) ? undefined : parsed;
+}
+
+/**
+ * Alias for backwards compatibility
+ */
+export function parseINRStringToNumber(value: string): number | undefined {
+  return parsePrice(value);
+}
