@@ -60,16 +60,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchUserProfile = async (userId: string) => {
     try {
+      console.log('[Auth] Fetching profile for user:', userId)
+
       const { data, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
         .single()
 
-      if (error) throw error
+      // Handle RLS or permission errors explicitly
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // No row found - user exists in auth but not in users table
+          console.warn('[Auth] User profile not found in database. User may not be set up yet.', { userId, error: error.message })
+          setUser(null)
+          return
+        }
+        if (error.code === '42501') {
+          // RLS policy denial
+          console.error('[Auth] RLS Policy Denied: Cannot fetch user profile. Check RLS policies.', { userId, error: error.message })
+          setUser(null)
+          return
+        }
+        // Any other error
+        throw error
+      }
+
+      if (!data) {
+        console.warn('[Auth] Profile fetch returned null data', { userId })
+        setUser(null)
+        return
+      }
+
+      console.log('[Auth] Profile fetched successfully:', { userId, role: data.role })
       setUser(data as User)
     } catch (error) {
-      console.error('Error fetching user profile:', error)
+      console.error('[Auth] Error fetching user profile:', error)
       setUser(null)
     }
   }
