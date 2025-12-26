@@ -15,10 +15,10 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicy";
 import CookiePolicyPage from "./pages/CookiePolicy";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import { CurrencyProvider } from "@/context/CurrencyContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const queryClient = new QueryClient();
-
-import { CurrencyProvider } from "@/context/CurrencyContext";
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
