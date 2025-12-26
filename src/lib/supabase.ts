@@ -1,7 +1,16 @@
 import { createClient } from '@supabase/supabase-js'
 
-const SUPABASE_URL = 'https://fecxyreocrvscudavykt.supabase.co'
-const SUPABASE_ANON_KEY = 'sb_publishable_oE07xyr5xibH7lh2WcfNPQ_mm-mGQdP'
+// Load credentials from environment variables (never hardcode!)
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+// Validate that environment variables are set
+if (!SUPABASE_URL) {
+  throw new Error('Missing VITE_SUPABASE_URL in environment variables')
+}
+if (!SUPABASE_ANON_KEY) {
+  throw new Error('Missing VITE_SUPABASE_ANON_KEY in environment variables')
+}
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
