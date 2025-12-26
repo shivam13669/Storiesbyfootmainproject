@@ -18,7 +18,7 @@ import { Trash2, CheckCircle, XCircle, Users, FileText, Plus, Edit2, Eye } from 
 import { toast } from 'sonner'
 
 export default function AdminDashboard() {
-  const { user, isAdmin } = useAuth()
+  const { user, isAdmin, isLoading: isAuthLoading } = useAuth()
   const [users, setUsers] = useState<User[]>([])
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -30,12 +30,17 @@ export default function AdminDashboard() {
   const [isCreatingUser, setIsCreatingUser] = useState(false)
 
   useEffect(() => {
+    // Wait for auth to finish loading before checking role
+    if (isAuthLoading) {
+      return
+    }
+
     if (!isAdmin) {
       window.location.href = '/'
       return
     }
     fetchData()
-  }, [isAdmin])
+  }, [isAdmin, isAuthLoading])
 
   const fetchData = async () => {
     try {
