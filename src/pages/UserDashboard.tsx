@@ -19,7 +19,7 @@ import { Trash2, Plus, Edit2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 export default function UserDashboard() {
-  const { user } = useAuth()
+  const { user, isLoading: isAuthLoading } = useAuth()
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -37,12 +37,17 @@ export default function UserDashboard() {
   })
 
   useEffect(() => {
+    // Wait for auth to finish loading before checking user
+    if (isAuthLoading) {
+      return
+    }
+
     if (!user) {
       window.location.href = '/'
       return
     }
     fetchTestimonials()
-  }, [user])
+  }, [user, isAuthLoading])
 
   const fetchTestimonials = async () => {
     if (!user) return
