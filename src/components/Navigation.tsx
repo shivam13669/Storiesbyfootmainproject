@@ -111,15 +111,33 @@ const Navigation = () => {
                       <p className="text-sm font-medium text-gray-900">{user.displayName || user.email}</p>
                       <p className="text-xs text-gray-500">{user.email}</p>
                     </div>
-                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                    <button
+                      onClick={() => {
+                        navigate("/account");
+                        setIsUserDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                    >
                       <User className="w-4 h-4" />
                       My Profile
                     </button>
-                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                    <button
+                      onClick={() => {
+                        navigate("/account");
+                        setIsUserDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                    >
                       <BookOpen className="w-4 h-4" />
                       My Bookings
                     </button>
-                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                    <button
+                      onClick={() => {
+                        navigate("/contact");
+                        setIsUserDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                    >
                       <HelpCircle className="w-4 h-4" />
                       Support & FAQs
                     </button>
