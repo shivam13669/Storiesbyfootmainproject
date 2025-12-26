@@ -192,6 +192,19 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setGeneralError("");
+    setIsLoading(true);
+    try {
+      await signInWithGoogle();
+      onClose();
+    } catch (error) {
+      setGeneralError(error instanceof Error ? error.message : "Google sign-in failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleForgotPassword = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateEmail(forgotPasswordEmail)) {
