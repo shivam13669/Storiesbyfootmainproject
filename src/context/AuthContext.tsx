@@ -116,13 +116,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
-      if (error) return { error: error.message }
+      console.log('[Auth] Login attempt for:', email)
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+
+      if (error) {
+        console.error('[Auth] Login failed:', error.message)
+        return { error: error.message }
+      }
+
+      if (!data.session?.user) {
+        console.error('[Auth] Login succeeded but no session/user returned')
+        return { error: 'Login succeeded but session was not created' }
+      }
+
+      console.log('[Auth] Login successful, session created:', data.session.user.id)
 
       // The onAuthStateChange listener will handle fetching the user profile
       // This ensures the user data is populated after successful login
       return { error: null }
     } catch (error) {
+      console.error('[Auth] Unexpected error during login:', error)
       return { error: 'An unexpected error occurred' }
     }
   }
