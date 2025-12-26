@@ -15,8 +15,11 @@ import AboutPage from "./pages/About";
 import TermsAndConditionPage from "./pages/TermsAndCondition";
 import PrivacyPolicyPage from "./pages/PrivacyPolicy";
 import CookiePolicyPage from "./pages/CookiePolicy";
+import AdminDashboard from "./pages/AdminDashboard";
+import UserDashboard from "./pages/UserDashboard";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +44,22 @@ const App = () => (
               <Route path="/terms-and-condition" element={<TermsAndConditionPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+              <Route
+                path="/admin-dashboard"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/user-dashboard"
+                element={
+                  <ProtectedRoute requiredRole="user">
+                    <UserDashboard />
+                  </ProtectedRoute>
+                }
+              />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
