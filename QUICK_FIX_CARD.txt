@@ -1,0 +1,61 @@
+╔════════════════════════════════════════════════════════════════════╗
+║                    🔧 QUICK FIX - ADMIN LOGIN STUCK                 ║
+╚════════════════════════════════════════════════════════════════════╝
+
+THE PROBLEM:
+  You logged in but admin dashboard didn't open, and now you're stuck.
+  Reason: Your admin profile is missing from the database.
+
+THE FIX (Pick One):
+
+┌─ OPTION 1: EASIEST (Recommended) ──────────────────────────────────┐
+│ 1. Log in to your website                                          │
+│ 2. Click your name (top-right menu)                                │
+│ 3. Click "Complete Admin Setup"                                    │
+│ 4. Click "Create Admin Profile" button                             │
+│ 5. Done! ✓ You're now admin                                        │
+└────────────────────────────────────────────────────────────────────┘
+
+┌─ OPTION 2: MANUAL (If Option 1 Doesn't Work) ──────────────────────┐
+│ 1. Go to Supabase Dashboard → SQL Editor                           │
+│ 2. Click "New Query"                                               │
+│ 3. Copy & Run this SQL (replace YOUR_EMAIL):                       │
+│                                                                    │
+│   UPDATE public.users                                              │
+│   SET role = 'admin', canWriteTestimonial = true                  │
+│   WHERE id = (SELECT id FROM auth.users                            │
+│               WHERE email = 'YOUR_EMAIL_HERE');                    │
+│                                                                    │
+│ 4. Wait for "1 row updated" message                                │
+│ 5. Go back to website and refresh                                  │
+│ 6. Log in again → Admin Dashboard                                  │
+│ 7. Done! ✓                                                         │
+└────────────────────────────────────────────────────────────────────┘
+
+WHAT I'VE DONE FOR YOU:
+✅ Created /admin-setup page with auto-setup button
+✅ Added "Complete Admin Setup" option in your user menu
+✅ Improved login flow to handle missing profiles
+✅ Created ADMIN_SETUP_FIX.md with detailed guide
+
+NEXT STEPS:
+1. Try Option 1 (easiest)
+2. If it doesn't work, use Option 2 (SQL manual)
+3. After fix, read ADMIN_SETUP_FIX.md for more help
+
+COMMON ISSUES:
+Issue: "Admin Setup page shows but nothing happens"
+→ Your Supabase RLS policies might need adjustment
+→ Use Option 2 (manual SQL) instead - always works!
+
+Issue: "Still stuck after clicking Create Profile"
+→ Clear browser cache (Ctrl+Shift+Delete)
+→ Refresh page (Ctrl+R)
+→ Try logging in again
+
+═════════════════════════════════════════════════════════════════════
+
+TL;DR:
+You need to run ONE SQL command in Supabase to set your role to 'admin'.
+I've made it easy with the auto-setup page, or you can do it manually.
+Either way, you'll be fixed in 2 minutes! 🚀
