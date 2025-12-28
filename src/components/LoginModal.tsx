@@ -128,6 +128,15 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [otpSent, setOtpSent] = useState(false);
   const [waitingForUserProfile, setWaitingForUserProfile] = useState(false);
 
+  // Auto-close modal when user profile is loaded after login
+  useState(() => {
+    if (waitingForUserProfile && user) {
+      console.log('[LoginModal] User profile loaded, closing modal');
+      setWaitingForUserProfile(false);
+      onClose();
+    }
+  }, [waitingForUserProfile, user, onClose]);
+
   const filteredCountries = COUNTRIES.filter(country =>
     country.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
     country.dial.includes(countrySearch) ||
