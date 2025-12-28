@@ -65,11 +65,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const errorMessage = error instanceof Error ? error.message : String(error)
         const errorCode = (error as any)?.code || 'UNKNOWN'
 
-        console.error('[Auth] Error in onAuthStateChange handler:', {
-          message: errorMessage,
-          code: errorCode,
-          fullError: error,
-        })
+        console.error('[Auth] Error in onAuthStateChange handler:')
+        console.error('  Message:', errorMessage)
+        console.error('  Code:', errorCode)
+        console.error('  Full Error:', JSON.stringify(error, null, 2))
 
         setUser(null)
       } finally {
@@ -108,18 +107,63 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (errorCode === 'PGRST116') {
           // No row found - user exists in auth but not in users table
-          console.warn('[Auth] User profile not found in database. User may not be set up yet.', fullError)
-          setUser(null)
+          // Try to create a default profile for the user
+          console.warn('[Auth] User profile not found. Attempting to create default profile...', JSON.stringify(fullError, null, 2))
+
+          const authUser = (await supabase.auth.getUser()).data.user
+          if (authUser) {
+            const { error: insertError } = await supabase.from('users').insert({
+              id: authUser.id,
+              email: authUser.email || '',
+              fullName: authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'User',
+              role: 'user',
+              isActive: true,
+              canWriteTestimonial: false,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            })
+
+            if (insertError) {
+              console.error('[Auth] Failed to create default profile:', JSON.stringify({
+                code: insertError.code,
+                message: insertError.message,
+                details: insertError.details,
+              }, null, 2))
+              setUser(null)
+              return
+            }
+
+            // Profile created, now fetch it
+            console.log('[Auth] Default profile created, fetching...')
+            const { data: newData, error: fetchError } = await supabase
+              .from('users')
+              .select('*')
+              .eq('id', userId)
+              .single()
+
+            if (fetchError) {
+              console.error('[Auth] Failed to fetch newly created profile:', JSON.stringify({
+                code: fetchError.code,
+                message: fetchError.message,
+              }, null, 2))
+              setUser(null)
+              return
+            }
+
+            console.log('[Auth] Profile created and fetched successfully:', { userId, role: newData?.role })
+            setUser(newData as User)
+          }
           return
         }
+
         if (errorCode === '42501') {
           // RLS policy denial
-          console.error('[Auth] RLS Policy Denied: Cannot fetch user profile. Check RLS policies.', fullError)
+          console.error('[Auth] RLS Policy Denied: Cannot fetch user profile. Check RLS policies.', JSON.stringify(fullError, null, 2))
           setUser(null)
           return
         }
         // Any other error - log full details and throw
-        console.error('[Auth] Unexpected error fetching profile:', fullError)
+        console.error('[Auth] Unexpected error fetching profile:', JSON.stringify(fullError, null, 2), 'Full error:', error)
         throw error
       }
 
@@ -136,15 +180,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const errorMessage = error instanceof Error ? error.message : String(error)
       const errorCode = (error as any)?.code || 'UNKNOWN'
       const errorStatus = (error as any)?.status || 'UNKNOWN'
+      const errorDetails = (error as any)?.details || 'N/A'
+      const errorHint = (error as any)?.hint || 'N/A'
 
-      console.error('[Auth] Error fetching user profile:', {
-        message: errorMessage,
-        code: errorCode,
-        status: errorStatus,
-        details: (error as any)?.details,
-        hint: (error as any)?.hint,
-        fullError: error,
-      })
+      console.error('[Auth] Error fetching user profile:')
+      console.error('  Message:', errorMessage)
+      console.error('  Code:', errorCode)
+      console.error('  Status:', errorStatus)
+      console.error('  Details:', errorDetails)
+      console.error('  Hint:', errorHint)
+      console.error('  Full Error:', JSON.stringify(error, null, 2))
 
       setUser(null)
     }
@@ -153,8 +198,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       console.log('[Auth] Login attempt for:', email)
-      console.log('[Auth] Supabase URL:', SUPABASE_URL)
-      console.log('[Auth] Supabase Key available:', !!SUPABASE_ANON_KEY)
 
       const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
@@ -197,17 +240,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signup = async (email: string, password: string, fullName: string) => {
     try {
+      console.log('[Auth] Signup attempt for:', email)
+
       // Create auth user
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
       })
 
-      if (authError) return { error: authError.message }
+      if (authError) {
+        console.error('[Auth] Signup auth error:', authError)
+        return { error: authError.message }
+      }
 
-      if (!authData.user) return { error: 'Failed to create user' }
+      if (!authData.user) {
+        console.error('[Auth] Signup succeeded but no user returned')
+        return { error: 'Failed to create user' }
+      }
 
-      // Create user profile
+      console.log('[Auth] Auth user created:', authData.user.id)
+
+      // Create user profile - must be done with ADMIN privileges (use service role key)
+      // For now, we'll do this as the new user after they're authenticated
       const { error: profileError } = await supabase.from('users').insert({
         id: authData.user.id,
         email,
@@ -215,13 +269,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         role: 'user',
         isActive: true,
         canWriteTestimonial: false, // Admin must enable
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       })
 
-      if (profileError) return { error: profileError.message }
+      if (profileError) {
+        console.error('[Auth] Profile creation error:', {
+          code: profileError.code,
+          message: profileError.message,
+          details: profileError.details,
+        })
+        return { error: `Failed to create profile: ${profileError.message}` }
+      }
 
+      console.log('[Auth] User profile created successfully')
       return { error: null }
     } catch (error) {
-      return { error: 'An unexpected error occurred' }
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      console.error('[Auth] Unexpected error during signup:', errorMessage)
+      return { error: errorMessage || 'An unexpected error occurred' }
     }
   }
 
