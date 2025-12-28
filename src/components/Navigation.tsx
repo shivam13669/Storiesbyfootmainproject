@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { CurrencyPicker } from "./CurrencyPicker";
 import { LoginModal } from "./LoginModal";
 import { useCurrency } from "@/context/CurrencyContext";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth, getSessionUser } from "@/context/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
