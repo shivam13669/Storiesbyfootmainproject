@@ -84,19 +84,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Handle RLS or permission errors explicitly
       if (error) {
-        if (error.code === 'PGRST116') {
+        const errorCode = error?.code || 'UNKNOWN'
+        const errorMessage = error?.message || 'Unknown error'
+        const fullError = {
+          code: errorCode,
+          message: errorMessage,
+          details: error?.details,
+          hint: error?.hint,
+          status: error?.status,
+        }
+
+        if (errorCode === 'PGRST116') {
           // No row found - user exists in auth but not in users table
-          console.warn('[Auth] User profile not found in database. User may not be set up yet.', { userId, error: error.message })
+          console.warn('[Auth] User profile not found in database. User may not be set up yet.', fullError)
           setUser(null)
           return
         }
-        if (error.code === '42501') {
+        if (errorCode === '42501') {
           // RLS policy denial
-          console.error('[Auth] RLS Policy Denied: Cannot fetch user profile. Check RLS policies.', { userId, error: error.message })
+          console.error('[Auth] RLS Policy Denied: Cannot fetch user profile. Check RLS policies.', fullError)
           setUser(null)
           return
         }
-        // Any other error
+        // Any other error - log full details and throw
+        console.error('[Auth] Unexpected error fetching profile:', fullError)
         throw error
       }
 
@@ -109,7 +120,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('[Auth] Profile fetched successfully:', { userId, role: data.role })
       setUser(data as User)
     } catch (error) {
-      console.error('[Auth] Error fetching user profile:', error)
+      // Better error logging - show all details instead of [object Object]
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      const errorCode = (error as any)?.code || 'UNKNOWN'
+      const errorStatus = (error as any)?.status || 'UNKNOWN'
+
+      console.error('[Auth] Error fetching user profile:', {
+        message: errorMessage,
+        code: errorCode,
+        status: errorStatus,
+        details: (error as any)?.details,
+        hint: (error as any)?.hint,
+        fullError: error,
+      })
+
       setUser(null)
     }
   }
