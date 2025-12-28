@@ -43,9 +43,12 @@ export default function UserDashboard() {
     }
 
     if (!user) {
+      console.log('[UserDashboard] No user authenticated, redirecting to home')
       window.location.href = '/'
       return
     }
+
+    console.log('[UserDashboard] User authenticated, fetching testimonials')
     fetchTestimonials()
   }, [user, isAuthLoading])
 
