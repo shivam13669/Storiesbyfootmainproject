@@ -53,16 +53,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (session?.user) {
           // For subsequent logins, we need to manage loading state
           setIsLoading(true)
+          console.log('[Auth] Session exists, fetching profile...')
           await fetchUserProfile(session.user.id)
         } else {
           // User logged out
+          console.log('[Auth] No session, clearing user')
           setUser(null)
         }
       } catch (error) {
-        console.error('[Auth] Error in onAuthStateChange handler:', error)
+        // Log detailed error info instead of [object Object]
+        const errorMessage = error instanceof Error ? error.message : String(error)
+        const errorCode = (error as any)?.code || 'UNKNOWN'
+
+        console.error('[Auth] Error in onAuthStateChange handler:', {
+          message: errorMessage,
+          code: errorCode,
+          fullError: error,
+        })
+
         setUser(null)
       } finally {
         // ALWAYS exit loading state - this prevents infinite "Logging in..." loop
+        console.log('[Auth] Setting isLoading to false')
         setIsLoading(false)
       }
     })
