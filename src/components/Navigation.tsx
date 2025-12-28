@@ -182,7 +182,11 @@ const Navigation = () => {
                 <div className="flex items-center gap-2">
                   <CurrencyPicker value={currency} onChange={setCurrency} className="flex-1" />
                 </div>
-                {isAuthenticated ? (
+                {isLoading && isAuthenticated ? (
+                  <div className="px-3 py-2 text-sm text-orange-300">
+                    Loading dashboard...
+                  </div>
+                ) : isAuthenticated ? (
                   <>
                     {isAdmin ? (
                       <Link
@@ -200,16 +204,15 @@ const Navigation = () => {
                       >
                         My Dashboard
                       </Link>
-                    ) : session ? (
+                    ) : (
                       <Link
-                        to="/admin-setup"
+                        to="/user-dashboard"
                         onClick={() => setIsOpen(false)}
-                        className="block px-3 py-2 rounded-md bg-orange-500/20 text-orange-300 text-sm font-medium hover:bg-orange-500/30 transition-colors flex items-center gap-2"
+                        className="block px-3 py-2 rounded-md bg-orange-500/20 text-orange-300 text-sm font-medium hover:bg-orange-500/30 transition-colors"
                       >
-                        <AlertCircle className="w-4 h-4" />
-                        Complete Admin Setup
+                        My Dashboard
                       </Link>
-                    ) : null}
+                    )}
                     <button
                       onClick={() => {
                         logout();
