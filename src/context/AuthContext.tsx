@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (session?.user) {
           // For subsequent logins, we need to manage loading state
           setIsLoading(true)
-          console.log('[Auth] Session exists, fetching profile...')
+          console.log('[Auth] Session exists, fetching profile for user:', session.user.id)
           await fetchUserProfile(session.user.id)
         } else {
           // User logged out
@@ -63,13 +63,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         // Log detailed error info instead of [object Object]
         const errorMessage = error instanceof Error ? error.message : String(error)
-        const errorCode = (error as any)?.code || 'UNKNOWN'
+        const errorName = error instanceof Error ? error.name : 'Unknown'
 
         console.error('[Auth] Error in onAuthStateChange handler:', {
+          errorName,
           message: errorMessage,
-          code: errorCode,
-          fullError: error,
+          type: typeof error,
         })
+
+        if (error instanceof Error) {
+          console.error('[Auth] Stack trace:', error.stack)
+        }
 
         setUser(null)
       } finally {
@@ -98,29 +102,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (error) {
         const errorCode = error?.code || 'UNKNOWN'
         const errorMessage = error?.message || 'Unknown error'
-        const fullError = {
+        const errorStatus = error?.status || 'UNKNOWN'
+
+        console.warn('[Auth] Error fetching user profile:', {
           code: errorCode,
           message: errorMessage,
+          status: errorStatus,
           details: error?.details,
           hint: error?.hint,
-          status: error?.status,
-        }
+        })
 
         if (errorCode === 'PGRST116') {
           // No row found - user exists in auth but not in users table
-          console.warn('[Auth] User profile not found in database. User may not be set up yet.', fullError)
+          // This can happen if profile creation during signup failed
+          console.warn('[Auth] User profile not found in database (PGRST116). User may not have completed setup.')
           setUser(null)
           return
         }
         if (errorCode === '42501') {
           // RLS policy denial
-          console.error('[Auth] RLS Policy Denied: Cannot fetch user profile. Check RLS policies.', fullError)
+          console.error('[Auth] RLS Policy Denied (42501): Cannot fetch user profile. Check RLS policies on users table.')
           setUser(null)
           return
         }
-        // Any other error - log full details and throw
-        console.error('[Auth] Unexpected error fetching profile:', fullError)
-        throw error
+        // Any other error - log and don't crash
+        console.error('[Auth] Unexpected error fetching profile. Code:', errorCode, 'Message:', errorMessage)
+        setUser(null)
+        return
       }
 
       if (!data) {
@@ -132,19 +140,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('[Auth] Profile fetched successfully:', { userId, role: data.role })
       setUser(data as User)
     } catch (error) {
-      // Better error logging - show all details instead of [object Object]
+      // Better error logging
       const errorMessage = error instanceof Error ? error.message : String(error)
-      const errorCode = (error as any)?.code || 'UNKNOWN'
-      const errorStatus = (error as any)?.status || 'UNKNOWN'
+      const errorName = error instanceof Error ? error.name : 'Unknown'
 
-      console.error('[Auth] Error fetching user profile:', {
+      console.error('[Auth] Exception while fetching user profile:', {
+        errorName,
         message: errorMessage,
-        code: errorCode,
-        status: errorStatus,
-        details: (error as any)?.details,
-        hint: (error as any)?.hint,
-        fullError: error,
+        type: typeof error,
       })
+
+      if (error instanceof Error) {
+        console.error('[Auth] Error stack:', error.stack)
+      }
 
       setUser(null)
     }
@@ -319,4 +327,23 @@ export function useAuth() {
     throw new Error('useAuth must be used within AuthProvider')
   }
   return context
+}
+
+/**
+ * Get session user data - useful for cases where profile is still loading
+ */
+export function getSessionUser(session: SupabaseSession | null) {
+  if (!session?.user?.email) return null
+
+  // Extract name from email or use email as fallback
+  const emailParts = session.user.email.split('@')[0].split('.')
+  const firstName = emailParts[0]?.charAt(0).toUpperCase() + emailParts[0]?.slice(1) || ''
+  const lastName = emailParts[1]?.charAt(0).toUpperCase() + emailParts[1]?.slice(1) || ''
+  const fullName = (firstName + ' ' + lastName).trim() || session.user.email
+
+  return {
+    id: session.user.id,
+    email: session.user.email,
+    fullName: fullName,
+  }
 }

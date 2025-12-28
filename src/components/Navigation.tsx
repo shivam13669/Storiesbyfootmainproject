@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { CurrencyPicker } from "./CurrencyPicker";
 import { LoginModal } from "./LoginModal";
 import { useCurrency } from "@/context/CurrencyContext";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth, getSessionUser } from "@/context/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,57 +67,54 @@ const Navigation = () => {
           {/* Currency + Login/User Menu */}
           <div className="hidden md:flex items-center gap-3">
             <CurrencyPicker value={currency} onChange={setCurrency} />
-            {isAuthenticated && user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white text-sm font-bold">
-                      {user.fullName.charAt(0).toUpperCase()}
-                    </div>
-                    <span className="text-white/90 text-sm font-medium max-w-[100px] truncate">
-                      {user.fullName}
-                    </span>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem disabled className="text-xs text-muted-foreground cursor-default">
-                    {user.email}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  {isAdmin ? (
-                    <DropdownMenuItem asChild>
-                      <Link to="/admin-dashboard" className="flex items-center gap-2 cursor-pointer">
-                        <LayoutDashboard className="w-4 h-4" />
-                        Admin Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                  ) : (
-                    <>
-                      {user ? (
+            {isAuthenticated ? (
+              (() => {
+                const displayUser = user || getSessionUser(session)
+                return displayUser ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                        <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white text-sm font-bold">
+                          {displayUser.fullName.charAt(0).toUpperCase()}
+                        </div>
+                        <span className="text-white/90 text-sm font-medium max-w-[100px] truncate">
+                          Hi, {displayUser.fullName.split(' ')[0]}
+                        </span>
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuItem disabled className="text-xs text-muted-foreground cursor-default">
+                        {displayUser.email}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      {isAdmin ? (
                         <DropdownMenuItem asChild>
-                          <Link to="/user-dashboard" className="flex items-center gap-2 cursor-pointer">
-                            <UserIcon className="w-4 h-4" />
-                            My Dashboard
+                          <Link to="/admin-dashboard" className="flex items-center gap-2 cursor-pointer">
+                            <LayoutDashboard className="w-4 h-4" />
+                            Admin Dashboard
                           </Link>
                         </DropdownMenuItem>
-                      ) : session ? (
-                        // User is logged in but profile not found - show setup option
-                        <DropdownMenuItem asChild>
-                          <Link to="/admin-setup" className="flex items-center gap-2 cursor-pointer text-orange-600 font-semibold">
-                            <AlertCircle className="w-4 h-4" />
-                            Complete Admin Setup
-                          </Link>
-                        </DropdownMenuItem>
-                      ) : null}
-                    </>
-                  )}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => logout()} className="flex items-center gap-2 text-red-600 cursor-pointer">
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                      ) : (
+                        <>
+                          {user && !isAdmin ? (
+                            <DropdownMenuItem asChild>
+                              <Link to="/user-dashboard" className="flex items-center gap-2 cursor-pointer">
+                                <UserIcon className="w-4 h-4" />
+                                My Profile
+                              </Link>
+                            </DropdownMenuItem>
+                          ) : null}
+                        </>
+                      )}
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => logout()} className="flex items-center gap-2 text-red-600 cursor-pointer">
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : null
+              })()
             ) : (
               <button
                 onClick={() => setIsLoginModalOpen(true)}

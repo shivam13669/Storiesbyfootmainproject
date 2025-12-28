@@ -21,11 +21,13 @@ export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) 
     return <Navigate to="/" replace />
   }
 
+  // For admin routes, check isAdmin flag
   if (requiredRole === 'admin' && !isAdmin) {
     return <Navigate to="/" replace />
   }
 
-  if (requiredRole === 'user' && !user) {
+  // For user routes, just check if authenticated (user object may still be loading from DB)
+  if (requiredRole === 'user' && !isAuthenticated) {
     return <Navigate to="/" replace />
   }
 
