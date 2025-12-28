@@ -23,6 +23,13 @@ console.log('[Supabase] Creating Supabase client with URL:', SUPABASE_URL)
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 console.log('[Supabase] Client created successfully')
 
+// Test Supabase connectivity on app load
+if (typeof window !== 'undefined') {
+  fetch(SUPABASE_URL, { method: 'HEAD', mode: 'no-cors' })
+    .then(() => console.log('[Supabase] Network connectivity: OK'))
+    .catch((err) => console.warn('[Supabase] Network connectivity issue:', err.message))
+}
+
 export type User = {
   id: string
   email: string
