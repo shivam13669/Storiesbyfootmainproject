@@ -153,22 +153,26 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     const { error } = await login(email, password);
 
     console.log('[LoginModal] Login function returned:', { error })
-    setIsLoading(false);
 
     if (error) {
       console.log('[LoginModal] Login error:', error)
+      setIsLoading(false);
       setEmailError(error);
       toast.error(error);
     } else {
-      console.log('[LoginModal] Login successful! Closing modal and waiting for profile to load...')
-      toast.success("Logged in successfully!");
+      console.log('[LoginModal] Login successful! Waiting for profile to load...')
+      toast.success("Logged in successfully! Redirecting to your dashboard...");
+
+      // Add a small delay to ensure auth context has time to load the profile
+      // The useAuthRedirect hook on the home page will handle the redirect
+      await new Promise(resolve => setTimeout(resolve, 800));
+
       setEmail("");
       setPassword("");
       onClose();
+      setIsLoading(false);
 
-      // Wait longer for auth state + profile fetch to complete
-      // The onAuthStateChange listener will fetch the profile and set isLoading(false)
-      console.log('[LoginModal] Modal closed, auth context will handle profile loading')
+      console.log('[LoginModal] Modal closed, useAuthRedirect hook will handle dashboard redirect')
     }
   };
 
