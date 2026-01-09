@@ -99,6 +99,26 @@ const validatePassword = (password: string) => {
   return { isValid, requirements };
 };
 
+// Watch for successful login and close modal when user is loaded
+function useCloseModalOnLogin(
+  loginPending: boolean,
+  onClose: () => void,
+  user: any,
+  isAuthLoading: boolean
+) {
+  useEffect(() => {
+    if (loginPending && user && !isAuthLoading) {
+      console.log('[LoginModal] User loaded, closing modal')
+      // Small delay to ensure modal closes smoothly
+      const timeout = setTimeout(() => {
+        onClose()
+        setLoginPending(false)
+      }, 300)
+      return () => clearTimeout(timeout)
+    }
+  }, [loginPending, user, isAuthLoading, onClose])
+}
+
 export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const { login, signup, sendOTP, user, isLoading: isAuthLoading } = useAuth();
 
