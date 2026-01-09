@@ -55,21 +55,34 @@ export default function UserDashboard() {
   }, [user, isAuthLoading, navigate])
 
   const fetchTestimonials = async () => {
-    if (!user) return
+    if (!user) {
+      setIsLoading(false)
+      return
+    }
 
     try {
-      setIsLoading(true)
+      const timeoutId = setTimeout(() => {
+        console.warn('[Dashboard] Testimonials fetch timeout')
+        setIsLoading(false)
+      }, 10000) // 10 second timeout for testimonials fetch
+
       const { data, error } = await supabase
         .from('testimonials')
         .select('*')
         .eq('userId', user.id)
         .order('createdAt', { ascending: false })
 
-      if (error) throw error
-      setTestimonials(data as Testimonial[])
+      clearTimeout(timeoutId)
+
+      if (error) {
+        console.error('[Dashboard] Error fetching testimonials:', error)
+        // Don't show error toast for now, just continue with empty testimonials
+        setTestimonials([])
+      } else {
+        setTestimonials(data as Testimonial[])
+      }
     } catch (error) {
-      console.error('Error fetching testimonials:', error)
-      toast.error('Failed to load testimonials')
+      console.error('[Dashboard] Exception while fetching testimonials:', error)
     } finally {
       setIsLoading(false)
     }
