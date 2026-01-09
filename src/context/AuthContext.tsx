@@ -114,10 +114,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (errorCode === 'PGRST116') {
           // No row found - user exists in auth but not in users table
-          // This can happen if profile creation during signup failed
-          console.warn('[Auth] User profile not found in database (PGRST116). User may not have completed setup.')
-          setUser(null)
-          return
+          // Try to create the user profile automatically
+          console.warn('[Auth] User profile not found. Attempting to create it.')
+          try {
+            const { data: session } = await supabase.auth.getSession()
+            const email = session?.session?.user?.email || ''
+            const fullName = email.split('@')[0] || 'User'
+
+            const { data: newUser, error: createError } = await supabase
+              .from('users')
+              .insert({
+                id: userId,
+                email,
+                fullName,
+                role: 'user',
+                isActive: true,
+                canWriteTestimonial: false,
+              })
+              .select('*')
+              .single()
+
+            if (createError) {
+              console.error('[Auth] Failed to create user profile:', createError)
+              setUser(null)
+              return
+            }
+
+            console.log('[Auth] User profile created successfully:', { userId, role: newUser?.role })
+            setUser(newUser as User)
+            return
+          } catch (createErr) {
+            console.error('[Auth] Exception while creating user profile:', createErr)
+            setUser(null)
+            return
+          }
         }
         if (errorCode === '42501') {
           // RLS policy denial
