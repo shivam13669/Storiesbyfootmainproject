@@ -41,15 +41,20 @@ export default function UserDashboard() {
   useEffect(() => {
     // Wait for auth to finish loading before checking user
     if (isAuthLoading) {
+      console.log('[UserDashboard] Still loading auth...')
       return
     }
 
+    console.log('[UserDashboard] Auth loading done, user:', user)
+
     if (!user) {
-      console.log('[UserDashboard] No user authenticated, redirecting to home')
+      // User is not authenticated - redirect to home
+      console.log('[UserDashboard] No user, redirecting to home')
       navigate('/', { replace: true })
       return
     }
 
+    // User exists, fetch their testimonials
     console.log('[UserDashboard] User authenticated, fetching testimonials')
     fetchTestimonials()
   }, [user, isAuthLoading, navigate])
