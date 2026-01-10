@@ -240,8 +240,8 @@ const DestinationsPage = () => {
                       </Button>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                  </Card>
                 ))}
               </div>
             </div>
