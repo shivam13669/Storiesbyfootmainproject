@@ -152,20 +152,20 @@ const DestinationsPage = () => {
             <div className="flex-1 min-w-0">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {displayPackages.map((pkg) => (
-              <Card
-                key={`${pkg.destinationSlug}-${pkg.slug}`}
-                role="link"
-                tabIndex={0}
-                aria-label={`View details for ${pkg.name}`}
-                onClick={() => handleOpenPackage(pkg.slug, pkg.destinationSlug)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    handleOpenPackage(pkg.slug, pkg.destinationSlug);
-                  }
-                }}
-                className="group flex h-full cursor-pointer flex-col overflow-hidden border border-border/60 bg-card/90 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              >
+                  <Card
+                    key={`${pkg.destinationSlug}-${pkg.slug}`}
+                    role="link"
+                    tabIndex={0}
+                    aria-label={`View details for ${pkg.name}`}
+                    onClick={() => handleOpenPackage(pkg.slug, pkg.destinationSlug)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        handleOpenPackage(pkg.slug, pkg.destinationSlug);
+                      }
+                    }}
+                    className="group flex h-full cursor-pointer flex-col overflow-hidden border border-border/60 bg-card/90 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  >
                 {pkg.image && (
                   <div className="relative h-64 w-full overflow-hidden">
                     <img
