@@ -1,9 +1,12 @@
 import { Search, Filter } from "lucide-react";
+import { Slider } from "./ui/slider";
 
 export type FilterState = {
   search: string;
   category: string;
   priceRange: string;
+  minPrice: number;
+  maxPrice: number;
   rating: string;
 };
 
