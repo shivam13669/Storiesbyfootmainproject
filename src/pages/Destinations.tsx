@@ -48,12 +48,52 @@ const DestinationsPage = () => {
     );
   }, []);
 
-  const displayPackages = isShowingAll ? allPackages : activeDestination.packages.map(pkg => ({
+  const basePackages = isShowingAll ? allPackages : activeDestination.packages.map(pkg => ({
     ...pkg,
     destinationSlug: activeDestination.slug,
     destinationName: activeDestination.name,
     destinationRegion: activeDestination.region
   }));
+
+  const displayPackages = useMemo(() => {
+    return basePackages.filter(pkg => {
+      // Search filter
+      const searchLower = filters.search.toLowerCase();
+      if (searchLower && !pkg.name.toLowerCase().includes(searchLower) && !pkg.description.toLowerCase().includes(searchLower)) {
+        return false;
+      }
+
+      // Category filter
+      const hasCategory = filters.categories.includes("All") ||
+        (pkg.categories && pkg.categories.some(cat => filters.categories.includes(cat)));
+      if (!hasCategory && filters.categories.length > 0 && !filters.categories.includes("All")) {
+        return false;
+      }
+
+      // Price range filter
+      if (filters.priceRange !== "all") {
+        const priceStr = pkg.price.replace(/[₹,]/g, "");
+        const price = parseInt(priceStr);
+        const [min, max] = filters.priceRange.split("-");
+        const minPrice = parseInt(min);
+        const maxPrice = max === "+" ? Infinity : parseInt(max);
+
+        if (price < minPrice || price > maxPrice) {
+          return false;
+        }
+      }
+
+      // Rating filter
+      if (filters.rating !== "all") {
+        const minRating = parseFloat(filters.rating);
+        if (pkg.rating < minRating) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [basePackages, filters]);
 
   const handleOpenPackage = (packageSlug: string, destinationSlug: string) => {
     navigate(`/destinations/${destinationSlug}/${packageSlug}`);
