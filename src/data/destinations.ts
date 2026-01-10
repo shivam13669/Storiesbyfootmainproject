@@ -16,6 +16,7 @@ export type DestinationPackage = {
   highlights: string[];
   itineraryUrl?: string;
   image?: string;
+  categories?: string[];
 };
 
 export type DestinationQuickFacts = {
