@@ -32,8 +32,8 @@ const DestinationsPage = () => {
   const [filters, setFilters] = useState<FilterState>({
     search: "",
     category: "All",
-    priceRange: "all",
-    rating: "all",
+    priceRange: "All",
+    rating: "All",
   });
 
   const isShowingAll = activeSlug === "all";
