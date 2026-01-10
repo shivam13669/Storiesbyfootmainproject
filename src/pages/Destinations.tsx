@@ -31,7 +31,7 @@ const DestinationsPage = () => {
 
   const [filters, setFilters] = useState<FilterState>({
     search: "",
-    categories: ["All"],
+    category: "All",
     priceRange: "all",
     rating: "all",
   });
