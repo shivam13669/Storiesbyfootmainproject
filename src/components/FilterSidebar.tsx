@@ -18,6 +18,8 @@ interface FilterSidebarProps {
 const CATEGORIES = ["All", "Beach", "Mountain", "City", "Bike", "Car", "Luxury", "Adventure"];
 const PRICE_RANGES = ["All", "₹0 - ₹25,000", "₹25,000 - ₹40,000", "₹40,000+"];
 const RATINGS = ["All", "4.5+", "4.7+", "4.8+"];
+const MIN_PRICE = 0;
+const MAX_PRICE = 100000;
 
 export const FilterSidebar = ({ filters, onFiltersChange }: FilterSidebarProps) => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
