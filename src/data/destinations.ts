@@ -98,6 +98,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://images.unsplash.com/photo-1549294413-26f195200c16?auto=format&fit=crop&w=1600&q=80",
+        categories: ["Mountain", "Adventure"],
       },
       {
         slug: "migla-throne-ride",
@@ -116,6 +117,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80",
+        categories: ["Mountain", "Luxury"],
       },
       {
         slug: "ultimate-ulingla",
@@ -136,6 +138,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&w=1600&q=80",
+        categories: ["Mountain", "Adventure"],
       },
     ],
   },
@@ -172,6 +175,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://cdn.builder.io/api/v1/image/assets%2F0c9f08f02c764866969402fd835478cb%2Faf28aeeed9944bfca81a00b8cdcdd8fb?format=webp&width=800",
+        categories: ["Mountain", "Adventure"],
       },
     ],
   },
@@ -209,6 +213,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://cdn.builder.io/api/v1/image/assets%2F0c9f08f02c764866969402fd835478cb%2Fd0879b3f63dc4393ab28eb025eac97e7?format=webp&width=800",
+        categories: ["Luxury", "Adventure"],
       },
     ],
   },
@@ -245,6 +250,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://cdn.builder.io/api/v1/image/assets%2F4a4b23c4a4604f318cabea6540b9b38b%2F36318bde1826458f8c22a7003aedd265?format=webp&width=800",
+        categories: ["Beach", "Adventure"],
       },
       {
         slug: "khasi-highlands-retreat",
@@ -263,6 +269,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://cdn.builder.io/api/v1/image/assets%2F4a4b23c4a4604f318cabea6540b9b38b%2F107c2ff1e4bf414fa214bc78eaab88c0?format=webp&width=800",
+        categories: ["Beach", "Luxury"],
       },
     ],
   },
@@ -300,6 +307,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://cdn.builder.io/api/v1/image/assets%2F4a4b23c4a4604f318cabea6540b9b38b%2F9f419557f45e49b18a9a1af4d0db408e?format=webp&width=800",
+        categories: ["Mountain", "Adventure"],
       },
       {
         slug: "kathmandu-heritage-chitwan",
@@ -318,6 +326,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://cdn.builder.io/api/v1/image/assets%2F4a4b23c4a4604f318cabea6540b9b38b%2F3ba47243a6834d3eade8da3e45996207?format=webp&width=800",
+        categories: ["City", "Adventure"],
       },
     ],
   },
@@ -354,6 +363,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://cdn.builder.io/api/v1/image/assets%2F0c9f08f02c764866969402fd835478cb%2F5eb306acdcb041aaa622522f123ba2e8?format=webp&width=800",
+        categories: ["Mountain", "Adventure"],
       },
       {
         slug: "chadar-frozen-river-trek",
@@ -372,6 +382,7 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://cdn.builder.io/api/v1/image/assets%2F3005cb3e673a454989d4f95fc852f4e9%2Ff41b9a57ee954f3098ff1c1aefa34d0b?format=webp&width=800",
+        categories: ["Mountain", "Adventure"],
       },
     ],
   },
