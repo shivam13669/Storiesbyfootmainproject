@@ -50,6 +50,16 @@ export const FilterSidebar = ({ filters, onFiltersChange }: FilterSidebarProps) 
     });
   };
 
+  const handlePriceSliderChange = (values: number[]) => {
+    if (values.length === 2) {
+      onFiltersChange({
+        ...filters,
+        minPrice: values[0],
+        maxPrice: values[1],
+      });
+    }
+  };
+
   return (
     <div className="w-full lg:w-72">
       <div className="bg-white rounded-xl shadow-md p-6 sticky top-24">
