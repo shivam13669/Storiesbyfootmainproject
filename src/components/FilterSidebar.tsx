@@ -12,7 +12,7 @@ interface FilterSidebarProps {
   onFiltersChange: (filters: FilterState) => void;
 }
 
-const CATEGORIES = ["All", "Beach", "Mountain", "City", "Luxury", "Adventure"];
+const CATEGORIES = ["All", "Beach", "Mountain", "City", "Bike", "Car", "Luxury", "Adventure"];
 const PRICE_RANGES = ["All", "₹0 - ₹25,000", "₹25,000 - ₹40,000", "₹40,000+"];
 const RATINGS = ["All", "4.5+", "4.7+", "4.8+"];
 
