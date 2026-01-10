@@ -79,7 +79,7 @@ export const destinations: Destination[] = [
       },
       {
         slug: "ladakh-bike-adventure",
-        name: "Ladakh Bike Adventure",
+        name: "Khardungla Changla Loop",
         duration: "7 days · 6 nights",
         description:
           "A spirited bike tour covering Magnetic Hill, Sangam, and the dunes of Hunder with backup vehicle support.",
@@ -99,8 +99,8 @@ export const destinations: Destination[] = [
       },
       {
         slug: "ladakh-highlights-private-tour",
-        name: "Ladakh Highlights Private Tour",
-        duration: "6 days · 5 nights",
+        name: "MigLa Throne Ride",
+        duration: "5 nights · 6 days",
         description:
           "Comfort-first itinerary with boutique stays, private SUV transfers, and immersive monastery visits.",
         price: "₹29,900",
@@ -114,6 +114,27 @@ export const destinations: Destination[] = [
         ],
         image:
           "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80",
+      },
+      {
+        slug: "ultimate-ulingla",
+        name: "Ultimate UlingLa",
+        duration: "7 nights · 6 days",
+        description:
+          "The ultimate Ladakh adventure combining high-altitude passes, pristine lakes, and thrilling mountain roads with luxury camping experiences.",
+        price: "₹45,800",
+        oldPrice: "₹50,000",
+        badge: "Exclusive",
+        rating: 4.9,
+        reviews: 178,
+        highlights: [
+          "Ulingla pass conquest ride",
+          "Pangong Tso & Moriri visits",
+          "Luxury high-altitude camps",
+          "Expert mountaineer guides",
+          "Astrophotography sessions",
+        ],
+        image:
+          "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=80",
       },
     ],
   },
