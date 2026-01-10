@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Search, Filter } from "lucide-react";
 
 export type FilterState = {
