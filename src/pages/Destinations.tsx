@@ -115,8 +115,8 @@ const DestinationsPage = () => {
 
       <main className="pt-24 pb-20">
         {/* Destination Selector */}
-        <section className="container mx-auto px-4 mb-12">
-          <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory sm:mx-0 sm:px-0">
+        <section className="container mx-auto px-4 mb-12 overflow-visible">
+          <div className="flex flex-nowrap gap-3 overflow-visible pb-2 py-2 -mx-4 px-4 snap-x snap-mandatory sm:mx-0 sm:px-0 sm:py-0">
             <button
               onClick={() => setActiveSlug("all")}
               aria-pressed={activeSlug === "all"}
@@ -177,7 +177,7 @@ const DestinationsPage = () => {
                         handleOpenPackage(pkg.slug, pkg.destinationSlug);
                       }
                     }}
-                    className="group flex h-full cursor-pointer flex-col overflow-hidden border border-border/60 bg-card/90 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                    className="group flex h-full cursor-pointer flex-col overflow-visible border border-border/60 bg-card/90 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
                 {pkg.image && (
                   <div className="relative h-64 w-full overflow-hidden">
