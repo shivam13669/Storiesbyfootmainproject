@@ -121,7 +121,7 @@ export const destinations: Destination[] = [
       },
       {
         slug: "ultimate-ulingla",
-        name: "Ultimate UmlingaLa",
+        name: "Ultimate UmlingLa",
         duration: "8 days · 7 nights",
         description:
           "The ultimate high-altitude adventure conquering Ulingla Pass, crossing pristine valleys, and experiencing Ladakh's most remote landscapes.",
