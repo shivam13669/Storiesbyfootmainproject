@@ -58,7 +58,7 @@ export const destinations: Destination[] = [
     packages: [
       {
         slug: "xtreme-ladakh-expedition",
-        name: "Xtreme Ladakh Expedition",
+        name: "Khardungla Changla Loop",
         duration: "6 days · 5 nights",
         description:
           "Conquer Khardung La, trace the Shyok River, and camp under galaxy-bright skies at Pangong Tso and Tso Moriri.",
@@ -81,7 +81,7 @@ export const destinations: Destination[] = [
       },
       {
         slug: "khardungla-changla-loop",
-        name: "Khardungla Changla Loop",
+        name: "India's Last Turn",
         duration: "7 days · 6 nights",
         description:
           "A spirited bike tour covering Magnetic Hill, Sangam, and the dunes of Hunder with backup vehicle support.",
