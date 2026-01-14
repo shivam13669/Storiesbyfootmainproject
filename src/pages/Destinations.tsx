@@ -177,7 +177,7 @@ const DestinationsPage = () => {
                         handleOpenPackage(pkg.slug, pkg.destinationSlug);
                       }
                     }}
-                    className="group flex h-full cursor-pointer flex-col overflow-hidden border border-border/60 bg-card/90 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                    className="group flex h-full cursor-pointer flex-col overflow-visible border border-border/60 bg-card/90 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
                 {pkg.image && (
                   <div className="relative h-64 w-full overflow-hidden">
